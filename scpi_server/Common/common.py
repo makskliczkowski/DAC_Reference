@@ -6,6 +6,36 @@ description of every function.
 
 '''
 
+
+def clear_status():
+
+
+def set_ese():
+
+
+def reg_status:
+
+def reg_status_clean():
+def device_id():
+
+
+def status():
+
+
+def op_complete():
+def is_op_complete():
+
+def reset_tree():
+
+def serv_enable():
+
+def serv_query():
+
+def status_byte():
+
+def self_test():
+
+def wait():
 common={
     '*CLS' : clear_status(),
     '*ESE' : set_ese(),
