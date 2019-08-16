@@ -8,35 +8,41 @@ description of every function.
 
 
 def clear_status():
-
+    pass
 
 def set_ese():
-
+    pass
 
 def reg_status:
+    pass
 
 def reg_status_clean():
-def device_id():
+    pass
 
+def device_id():
+    pass
 
 def status():
-
+    pass
 
 def op_complete():
+    pass
 def is_op_complete():
-
+    pass
 def reset_tree():
-
+    pass
 def serv_enable():
-
+    pass
 def serv_query():
-
+    pass
 def status_byte():
-
+    pass
 def self_test():
-
+    pass
 def wait():
-common={
+    pass
+
+common = {
     '*CLS' : clear_status(),
     '*ESE' : set_ese(),
     '*ESE?' : reg_status(),
