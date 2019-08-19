@@ -1,7 +1,7 @@
 from .SCPI_server import *
 
 
-dac = dac()
+dac = DAC()
 dac.__init__()
 
 sel = selectors.DefaultSelector()

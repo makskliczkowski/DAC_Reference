@@ -2,11 +2,15 @@
   <dictionary name="Max Kliczkowski">
     <words>
       <w>addr</w>
+      <w>binar</w>
+      <w>enab</w>
       <w>ldac</w>
       <w>oper</w>
       <w>serv</w>
+      <w>strin</w>
       <w>syst</w>
       <w>vers</w>
+      <w>widt</w>
     </words>
   </dictionary>
 </component>

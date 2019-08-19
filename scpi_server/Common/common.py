@@ -5,77 +5,77 @@ description of every function.
 
 
 '''
+class Commons:
+
+    def clear_status(self):
+        pass
 
 
-def clear_status():
-    pass
+    def set_ese(self):
+        pass
 
 
-def set_ese():
-    pass
+    def reg_status(self):
+        pass
 
 
-def reg_status():
-    pass
+    def reg_status_clean(self):
+        pass
 
 
-def reg_status_clean():
-    pass
+    def device_id(self):
+        pass
 
 
-def device_id():
-    pass
+    def status(self):
+        pass
 
 
-def status():
-    pass
+    def op_complete(self):
+        pass
 
 
-def op_complete():
-    pass
+    def is_op_complete(self):
+        pass
 
 
-def is_op_complete():
-    pass
+    def reset_tree(self):
+        pass
 
 
-def reset_tree():
-    pass
+    def serv_enable(self):
+        pass
 
 
-def serv_enable():
-    pass
+    def serv_query(self):
+        pass
 
 
-def serv_query():
-    pass
+    def status_byte(self):
+        pass
 
 
-def status_byte():
-    pass
+    def self_test(self):
+        pass
 
 
-def self_test():
-    pass
+    def wait(self):
+        pass
 
 
-def wait():
-    pass
-
-
-common = {
-    '*CLS': clear_status(),
-    '*ESE': set_ese(),
-    '*ESE?': reg_status(),
-    '*ESR?': reg_status_clean(),
-    '*IDN?': device_id(),
-    '*IST?': status(),
-    '*OPC': op_complete(),
-    '*OPC?': is_op_complete(),
-    '*RST': reset_tree(),
-    '*SRE': serv_enable(),
-    '*SRE?': serv_query(),
-    '*STB?': status_byte(),
-    '*TST?': self_test(),
-    '*WAI': wait()
-}
+    common = {
+        '*CLS': clear_status(),
+        '*ESE': set_ese(),
+        '*ESE?': reg_status(),
+        '*ESR?': reg_status_clean(),
+        '*IDN?': device_id(),
+        '*IST?': status(),
+        '*OPC': op_complete(),
+        '*OPC?': is_op_complete(),
+        '*RST': reset_tree(),
+        '*SRE': serv_enable(),
+        '*SRE?': serv_query(),
+        '*STB?': status_byte(),
+        '*TST?': self_test(),
+        '*WAI': wait()
+    }

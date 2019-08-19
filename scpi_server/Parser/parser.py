@@ -1,102 +1,86 @@
 from typing import Dict
+from ..SCPI_server import *
 
 
-# root functions-----------------------------------------------------------
-def root_sys():
-    pass
+class CommandTree:
 
+    # root functions-----------------------------------------------------------
+    def root_sys(self):
+        pass
 
-def root_stat():
-    pass
+    def root_stat(self):
+        pass
 
+    root_short = {
+        "SYST": root_sys(),
+        "STAT": root_stat()
+    }
 
-root_short = {
-    "SYST": root_sys(),
-    "STAT": root_stat()
-}
+    # syst functions-----------------------------------------------------
+    def syst_error(self):
+        pass
 
+    def syst_version(self):
+        pass
 
-# syst functions-----------------------------------------------------
-def syst_error():
-    pass
+    syst_short = {
+        'ERR': syst_error(),
+        'VERS?': syst_version()
 
+    }
 
-def syst_version():
-    pass
+    # status functions--------------------------------------------
+    def stat_oper(self):
+        pass
 
+    def stat_questionable(self):
+        pass
 
-syst_short = {
-    'ERR': syst_error(),
-    'VERS?': syst_version()
+    def stat_preset(self):
+        pass
 
-}
+    stat_short = {
+        'OPER': stat_oper(),
+        'QUES': stat_questionable(),
+        'PRES': stat_preset()
+    }
 
+    # operation functions -----------------------------------------------------
+    def oper_event(self):
+        pass
 
-# status functions--------------------------------------------
-def stat_oper():
-    pass
+    def oper_condition(self):
+        pass
 
+    def oper_enable(self):
+        pass
 
-def stat_questionable():
-    pass
+    def oper_is_enable(self):
+        pass
 
+    operartion_short = {
+        'EVEN?': oper_event(),
+        'COND?': oper_condition(),
+        'ENAB': oper_enable(),
+        'ENAB?': oper_is_enable()
+    }
 
-def stat_preset():
-    pass
+    # questionable functions------------------------------------------
+    def quest_event(self):
+        pass
 
+    def quest_condition(self):
+        pass
 
-stat_short = {
-    'OPER': stat_oper(),
-    'QUES': stat_questionable(),
-    'PRES': stat_preset()
-}
+    def quest_enable(self):
+        pass
 
+    def quest_is_enable(self):
+        pass
 
-# operation functions -----------------------------------------------------
-def oper_event():
-    pass
-
-
-def oper_condition():
-    pass
-
-
-def oper_enable():
-    pass
-
-
-def oper_is_enable():
-    pass
-
-
-operartion_short = {
-    'EVEN?': oper_event(),
-    'COND?': oper_condition(),
-    'ENAB': oper_enable(),
-    'ENAB?': oper_is_enable()
-}
-
-
-# questionable functions------------------------------------------
-def quest_event():
-    pass
-
-
-def quest_condition():
-    pass
-
-
-def quest_enable():
-    pass
-
-
-def quest_is_enable():
-    pass
-
-
-questionable_short = {
-    'EVEN?': quest_event(),
-    'COND?': quest_condition(),
-    'ENAB': quest_enable(),
-    'ENAB?': quest_is_enable()
-}
+    questionable_short = {
+        'EVEN?': quest_event(),
+        'COND?': quest_condition(),
+        'ENAB': quest_enable(),
+        'ENAB?': quest_is_enable()
+    }

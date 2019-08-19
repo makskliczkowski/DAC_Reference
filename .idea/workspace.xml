@@ -4,8 +4,10 @@
     <list default="true" id="358d00c1-0e22-4e28-abcc-692e0d774573" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/dictionaries/Max_Kliczkowski.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/Max_Kliczkowski.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scpi_server/Parser/parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/Parser/parser.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scpi_server/SCPI_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/SCPI_server.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scpi_server/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spi_set.py" beforeDir="false" afterPath="$PROJECT_DIR$/spi_set.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -94,7 +96,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
