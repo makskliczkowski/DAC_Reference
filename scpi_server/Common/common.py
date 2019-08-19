@@ -5,63 +5,51 @@ description of every function.
 
 
 '''
+
+
 class Commons:
 
     def clear_status(self):
         pass
 
-
     def set_ese(self):
         pass
-
 
     def reg_status(self):
         pass
 
-
     def reg_status_clean(self):
         pass
-
 
     def device_id(self):
         pass
 
-
     def status(self):
         pass
-
 
     def op_complete(self):
         pass
 
-
     def is_op_complete(self):
         pass
-
 
     def reset_tree(self):
         pass
 
-
     def serv_enable(self):
         pass
-
 
     def serv_query(self):
         pass
 
-
     def status_byte(self):
         pass
-
 
     def self_test(self):
         pass
 
-
     def wait(self):
         pass
-
 
     common = {
         '*CLS': clear_status(),

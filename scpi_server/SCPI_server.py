@@ -1,5 +1,7 @@
+from .Common.common import *
+from .Parser.parser import *
+
 import socket
-import select
 import selectors
 import time
 import types
@@ -65,7 +67,8 @@ def convertComplement_DAC(value, width=20):
         return binar
 
 
-class DAC:
+# ADD ERRORS CLASSES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+class DAC(Commons, CommandTree):
     def __init__(self):
         # using two's complement
         # CONSTS
@@ -100,14 +103,66 @@ class DAC:
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def serv_create(self, buffer=5):
+        # Avoid bind() exception: OSError: [Errno 48] Address already in use
+        self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.s.bind((self.IP, self.PORT))
         self.s.listen(buffer)
         print(f"Creation of server on {(self.IP, self.PORT)} successful")
         self.s.setblocking(False)
 
+    # A class that will parse information, contain current path, include message to be sent back, request will
+    # be a list of requests that user wants from us. The message will be provided in ASCI format.
+    class ParseMessage(Commons, CommandTree):
+        def __init__(self):
+            # to allow memory of current path we will save a string path and every time when we go to other path we
+            # wil change the dictionary with inner functions from common or parser, thanks to that we don't need to
+            # worry about getting in other dictionaries!
+            self.current_branch = ""
+            self.curr_dic_short = CommandTree.root_short
+            self.curr_dic_long = CommandTree.root_long
+            self.request = None
+            self.response = None
+            self.message = ""
+
+            self.terminator = '\n'
+            self.command_separator = ';'
+            # A semicolon separates two commands in the same message without changing
+            # the current path.
+            self.path_separator = ':'
+            # When a colon is between two command keywords, it moves the current path down
+            # one level in the command tree.
+            self.parameters_separator = ','
+            self.query = '?'
+
+        def clear_path(self):
+            self.current_branch = ""
+            self.curr_dic_short = CommandTree.root_short
+            self.curr_dic_long = CommandTree.root_long
+            self.message = ""
+
+        def msg_handle(self, msg):
+            self.message = msg
+            temp = list(self.message)
+            if temp[0] == self.path_separator and self.current_branch == "":
+                del temp[0]
+                # we are at the root branch
+            elif temp[0] == self.path_separator and not self.current_branch == "":
+                self.response = "Can't access you path" + msg + ". Can't use : at the beginning. Try again\n"
+                self.message = ""
+                return
+                # Later add error!!!!!
+            # now we iterate on requested path
+            path_temp = list()
+            for i in temp:
+                path_temp.append(temp[i])
+                # if we get :
+                if path_temp[i] == self.path_separator:
+                    path_temp.pop()  # remove : from the end
+
+
 
 # This is a class that handles the whole message with parsing it, then the
-# information will be processed by inside parse class and sent to the DAC class.
+# information will be processed and sent to the DAC inside parse class to adapt by DAC.
 
 def accept_client(sock, sel):
     conn, address = sock.accept()  # we accept new socket
@@ -115,6 +170,31 @@ def accept_client(sock, sel):
     conn.setblocking(False)
     message = Message(sel, conn, address)
     sel.register(conn, selectors.EVENT_READ, data=message)
+
+
+def server_handle(dac):
+    # Function that will handle server requests, add selectors and allow multiple connections, to be seen how it works
+    sel = selectors.DefaultSelector()
+    sel.register(dac.s, selectors.EVENT_READ, data=None)
+    try:
+        while True:
+            events = sel.select(timeout=None)
+            for key, mask in events:
+                # if there is no data we should accept new client
+                if key.data is None:
+                    accept_client(key.fileobj)
+                # else we have to take message
+                else:
+                    message = key.data
+                    try:
+                        message.process_events(mask)
+                    except Exception:
+                        # we need to add every exeption we can get, for later
+                        message.close()
+    except KeyboardInterrupt:
+        print("caught keyboard interrupt, exiting")
+    finally:
+        sel.close()
 
 
 class Message:
@@ -199,6 +279,3 @@ class Message:
         self.response = response
         self.send_buffer += response
         self.created_response = True
-
-    class ParseMessage:
-        pass

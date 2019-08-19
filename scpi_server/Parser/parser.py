@@ -15,6 +15,10 @@ class CommandTree:
         "SYST": root_sys(),
         "STAT": root_stat()
     }
+    root_long = {
+        "SYSTem": root_sys(),
+        "STATus": root_stat()
+    }
 
     # syst functions-----------------------------------------------------
     def syst_error(self):
@@ -26,6 +30,11 @@ class CommandTree:
     syst_short = {
         'ERR': syst_error(),
         'VERS?': syst_version()
+
+    }
+    syst_long = {
+        'ERRor': syst_error(),
+        'VERSion?': syst_version()
 
     }
 

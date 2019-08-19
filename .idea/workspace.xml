@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="358d00c1-0e22-4e28-abcc-692e0d774573" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/Max_Kliczkowski.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/Max_Kliczkowski.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scpi_server/Common/common.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/Common/common.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scpi_server/Parser/parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/Parser/parser.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scpi_server/SCPI_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/SCPI_server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scpi_server/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spi_set.py" beforeDir="false" afterPath="$PROJECT_DIR$/spi_set.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -88,8 +86,25 @@
       <option name="project" value="LOCAL" />
       <updated>1565963452545</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="repaired mistakes, added new functionality and parsed info classes">
+      <created>1566200376375</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1566200376375</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -107,6 +122,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Project configuration files" />
     <MESSAGE value="new files" />
-    <option name="LAST_COMMIT_MESSAGE" value="new files" />
+    <MESSAGE value="repaired mistakes, added new functionality and parsed info classes" />
+    <option name="LAST_COMMIT_MESSAGE" value="repaired mistakes, added new functionality and parsed info classes" />
   </component>
 </project>
