@@ -5,9 +5,27 @@ description of every function.
 
 
 '''
+from scpi_server.DAC import DAC
 
 
-class Commons:
+class Commons(DAC):
+    def __init__(self):
+        self.common = {
+            '*CLS': self.clear_status(),
+            '*ESE': self.set_ese(),
+            '*ESE?': self.reg_status(),
+            '*ESR?': self.reg_status_clean(),
+            '*IDN?': self.device_id(),
+            '*IST?': self.status(),
+            '*OPC': self.op_complete(),
+            '*OPC?': self.is_op_complete(),
+            '*RST': self.reset_tree(),
+            '*SRE': self.serv_enable(),
+            '*SRE?': self.serv_query(),
+            '*STB?': self.status_byte(),
+            '*TST?': self.self_test(),
+            '*WAI': self.wait()
+        }
 
     def clear_status(self):
         pass
@@ -50,20 +68,3 @@ class Commons:
 
     def wait(self):
         pass
-
-    common = {
-        '*CLS': clear_status(),
-        '*ESE': set_ese(),
-        '*ESE?': reg_status(),
-        '*ESR?': reg_status_clean(),
-        '*IDN?': device_id(),
-        '*IST?': status(),
-        '*OPC': op_complete(),
-        '*OPC?': is_op_complete(),
-        '*RST': reset_tree(),
-        '*SRE': serv_enable(),
-        '*SRE?': serv_query(),
-        '*STB?': status_byte(),
-        '*TST?': self_test(),
-        '*WAI': wait()
-    }
