@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="358d00c1-0e22-4e28-abcc-692e0d774573" name="Default Changelist" comment="New functionality of parsing messages, to remember current path we will just change current dictionary, that's the quickest way">
+    <list default="true" id="358d00c1-0e22-4e28-abcc-692e0d774573" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scpi_server/SCPI_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/SCPI_server.py" afterDir="false" />
     </list>
@@ -98,7 +98,14 @@
       <option name="project" value="LOCAL" />
       <updated>1566206133721</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="added more instances in parsing">
+      <created>1566208475988</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1566208475988</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -129,6 +136,7 @@
     <MESSAGE value="new files" />
     <MESSAGE value="repaired mistakes, added new functionality and parsed info classes" />
     <MESSAGE value="New functionality of parsing messages, to remember current path we will just change current dictionary, that's the quickest way" />
-    <option name="LAST_COMMIT_MESSAGE" value="New functionality of parsing messages, to remember current path we will just change current dictionary, that's the quickest way" />
+    <MESSAGE value="added more instances in parsing" />
+    <option name="LAST_COMMIT_MESSAGE" value="added more instances in parsing" />
   </component>
 </project>

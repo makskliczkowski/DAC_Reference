@@ -111,7 +111,7 @@ class DAC(Commons, CommandTree):
         self.s.setblocking(False)
 
     # A class that will parse information, contain current path, include message to be sent back, request will
-    # be a list of requests that user wants from us. The message will be provided in ASCI format.
+    # be proceeded after receiving value that user wants from us. The message will be provided in ASCI format.
     class ParseMessage(Commons, CommandTree):
         def __init__(self):
             # to allow memory of current path we will save a string path and every time when we go to other path we
@@ -120,10 +120,11 @@ class DAC(Commons, CommandTree):
             self.current_branch = ""
             self.curr_dic_short = CommandTree.root_short
             self.curr_dic_long = CommandTree.root_long
-            self.request = None  # List of requests
+            self.request = None  # current request
+            self.request_val = None  # current request value
             self.response = None  # This will be the response to send to the client
             self.message = ""  # Message that server got
-            self.expect_request = False
+            self.expect_request = False  # we will make functions in dictionary expect request
 
             self.terminator = '\n'
             self.command_separator = ';'
@@ -140,10 +141,40 @@ class DAC(Commons, CommandTree):
             self.curr_dic_short = CommandTree.root_short
             self.curr_dic_long = CommandTree.root_long
             self.message = ""
-        def find_path(self):
 
-        def find_in_common(self):
-            pass
+        def find_path(self, path_temp):
+            # we now check for instance of the path in the dictionary
+            err_short = self.curr_dic_short(str(path_temp).upper())
+            err_long = self.curr_dic_long(str(path_temp).upper())
+            # ADD ERRRRORRORORORORR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            error = err_long == -1 and err_short == -1
+            if error:
+                self.response = "Wrong path, problem with: (No such directory) - " + str(path_temp) + "Try again\n"
+                self.message = ""
+            return error
+
+        def find_in_common(self, path_temp):
+            error = self.common(str(path_temp).upper())
+            if not error:
+                self.response = "Wrong path, problem with: (No such directory) - " + str(path_temp) + "Try again\n"
+                self.message = ""
+            return error
+
+        # we define request sending function as it may be finishing command
+        def request_sending(self, path_temp):
+            self.request_val = path_temp
+            error = self.find_path(self.request)  # now we can execute function from request
+            self.request_val = ""
+            self.request = ""
+            if not error:
+                self.response = "Wrong path, problem with: (No such directory) - " + str(path_temp) + "Try again\n"
+                self.message = ""
+            return error
+
+        # three finishing commands are possible
+        #   -change the path
+        #   -request handle
+        #   -common request
         def msg_handle(self, msg):
             self.message = msg
             temp = list(self.message)
@@ -157,27 +188,69 @@ class DAC(Commons, CommandTree):
                 # Later add error!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             # now we iterate on requested path
             path_temp = list()
+            # our possibilities are:
+            #   -terminator - finishes sentence and clears path
+            #   -finish of temp - finishes sentence and leaves path
+            #   -white space - can be omitted after : or ; or can mean that we wait for the request
+            #   -: - we know that we need to change path
+            #   -; - we start a new command either by resetting path with ;: or in the same directory
             for i in temp:
                 path_temp.append(temp[i])
+                # terminator clears the path!
+                if temp[i] == self.terminator:
+                    if self.expect_request:
+                        error = self.request_sending(path_temp)
+                        if error == -1:
+                            return -1
+                    else:
+                        error = self.find_in_common(path_temp)
+                        if error == -1:
+                            return -1
+                    path_temp = []
+                    error = 0
+                    return error  # 0 is returned when no error occurred!
+                # if we get ; we pop it back, check for request and if no request needed then check in common
+                # as it hasn't been already executed before, we just check if it's a command without parameters
+                if temp[i] == self.command_separator:
+                    path_temp.pop()
+                    if self.expect_request:
+                        error = self.request_sending(path_temp)
+                        if error == -1:
+                            return -1
+                    else:
+                        error = self.find_in_common(path_temp)
+                        if error == -1:
+                            return -1
+                    path_temp = []
+                    continue
                 # if we get :
-                if path_temp[i] == self.path_separator:
+                if temp[i] == self.path_separator:
+                    if temp[i - 1] == self.command_separator:
+                        # if we have combination ;: we need to clear path
+                        self.clear_path()
+                        path_temp = []
+                        continue
                     path_temp.pop()  # remove : from the end
-                    # we now check for instance of the path in the dictionary
-                    err_short = self.curr_dic_short(str(path_temp))
-                    err_long = self.curr_dic_long(str(path_temp))
-                    # ADD ERRRRORRORORORORR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    if err_long == -1 and err_short == -1:
-                        self.response = "Wrong path, problem with: (No such directory) - " + str(temp) + "Try again\n"
-                        self.message = ""
+                    error = self.find_path(path_temp)
+                    if error == -1:
+                        return -1
                     self.current_branch = self.current_branch + ":" + str(path_temp)
                     path_temp = []
-
-                if path_temp[i] == " " and path_temp[i-1]!=self.path_separator:
+                    continue
+                # <WSP> handling and request processing
+                if temp[i] == " " and (temp[i - 1] == self.path_separator or temp[i - 1] == self.command_separator):
+                    # ignore whitespaces after : or ;
                     path_temp.pop()
-
+                    continue
+                if temp[i] == " " and (temp[i - 1] != self.path_separator or temp[i - 1] != self.command_separator):
+                    # whitespace after command makes expecting response
+                    path_temp.pop()
+                    error = self.request = path_temp  # we are waiting for request value before getting it done
+                    if error == -1:
+                        return -1
+                    path_temp = []
                     continue
 
-                if path_temp[i] == self.command_separator
 
 # This is a class that handles the whole message with parsing it, then the
 # information will be processed and sent to the DAC inside parse class to adapt by DAC.
