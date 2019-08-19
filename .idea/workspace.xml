@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="358d00c1-0e22-4e28-abcc-692e0d774573" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/Max_Kliczkowski.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/Max_Kliczkowski.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scpi_server/SCPI_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/SCPI_server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scpi_server/Parser/parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/Parser/parser.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -105,7 +106,14 @@
       <option name="project" value="LOCAL" />
       <updated>1566208475988</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Finished parsing function, definitely needs testing and error class should be provided!">
+      <created>1566217590079</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1566217590079</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -137,6 +145,7 @@
     <MESSAGE value="repaired mistakes, added new functionality and parsed info classes" />
     <MESSAGE value="New functionality of parsing messages, to remember current path we will just change current dictionary, that's the quickest way" />
     <MESSAGE value="added more instances in parsing" />
-    <option name="LAST_COMMIT_MESSAGE" value="added more instances in parsing" />
+    <MESSAGE value="Finished parsing function, definitely needs testing and error class should be provided!" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finished parsing function, definitely needs testing and error class should be provided!" />
   </component>
 </project>
