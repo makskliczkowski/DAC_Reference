@@ -1,5 +1,3 @@
-from typing import List, Any
-
 from scpi_server.DAC import DAC
 import Adafruit_BBIO.GPIO as GPIO
 
@@ -284,7 +282,24 @@ class CommandTree(DAC):
     # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! THIRD LEVEL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     # voltage
     def volt_raw(self):
-        pass
+        raw = int(self.ParseMessage.request_val)
+        if self.MAX_POS >= raw >= self.MAX_NEG:
+            self.DAC.act_val = raw
+            self.ParseMessage.response += "Actual value is: " + str(self.act_val) + "\n"
+        else:
+            self.DAC.act_val = 0  # if we go out of range we get 0
+            self.ParseMessage.response += "Out of range[-1,1] or 0. Actual value is: " + str(self.act_val) + "\n"
+        self.registerValue()
 
     def volt_norm(self):
-        pass
+        norm = int(self.ParseMessage.request_val)
+        if 0 < norm <= 1:
+            self.DAC.act_val = int(self.MAX_POS * norm)
+            self.ParseMessage.response += "Actual value is: " + str(self.act_val) + "\n"
+        elif 0 > norm >= -1:
+            self.DAC.act_val = int(-self.MAX_NEG * norm)
+            self.ParseMessage.response += "Actual value is: " + str(self.act_val) + "\n"
+        else:
+            self.DAC.act_val = 0
+            self.ParseMessage.response += "Out of range[-1,1] or 0. Actual value is: " + str(self.act_val) + "\n"
+        self.registerValue()

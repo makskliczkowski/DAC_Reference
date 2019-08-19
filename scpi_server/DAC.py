@@ -2,10 +2,6 @@ from .Common.common import *
 from .Parser.parser import *
 
 import socket
-from scpi_server.SCPI_server import *
-import time
-import types
-import sys
 import Adafruit_BBIO.GPIO as GPIO
 from Adafruit_BBIO.SPI import SPI
 
@@ -81,7 +77,7 @@ class DAC(CommandTree, Commons):
         self.IP = '192.168.0.20'
         self.PORT = 5555
 
-        self.actVal = 0  # actual value
+        self.act_val = 0  # actual value
         self.clock = self.MIN_CLOCK  # begin with min value
 
         self.spi = SPI(1, 0)  # spi for our communication
@@ -120,6 +116,25 @@ class DAC(CommandTree, Commons):
         print(f"Creation of server on {(self.IP, self.PORT)} successful")
         self.s.setblocking(False)
 
+    def initializeDAC(self):  # we can always change the initialize and make it more flexible
+        GPIO.output("P8_17", GPIO.HIGH)
+        self.spi.writebytes([0b00100000, 0b00000000, 0b00100010])
+        GPIO.output("P8_17", GPIO.LOW)
+
+    def registerValue(self):
+
+        self.initializeDAC()
+        if self.act_val != 0:
+            temp = convertComplement_DAC(self.actVal, 20)
+            string1 = self.dacSend + temp[0:4]
+            string2 = temp[4:12]
+            string3 = temp[12:]
+            GPIO.output("P8_17", GPIO.HIGH)
+            self.spi.writebytes([int(string1, 2), int(string2, 2), int(string3, 2)])
+            GPIO.output("P8_17", GPIO.LOW)
+        else:
+            self.contr_res_button()
+
     # A class that will parse information, contain current path, include message to be sent back, request will
     # be proceeded after receiving value that user wants from us. The message will be provided in ASCI format.
     class ParseMessage(Commons, CommandTree):
@@ -146,6 +161,12 @@ class DAC(CommandTree, Commons):
             # one level in the command tree.
             self.parameters_separator = ','
             self.query = '?'
+
+        def take_msg(self, data):
+            self.message = data.decode("ascii")
+
+        def send_response(self):
+            return self.response.encode()
 
         def clear_path(self):
             self.current_branch = ""
