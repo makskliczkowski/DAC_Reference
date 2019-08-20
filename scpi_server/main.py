@@ -1,10 +1,11 @@
-from parseMessage import *
+from .Module.__init__ import *
+from .SCPI_server import *
 import sys
 
-msg_parse = ParseMessage()
+Message = Message()
 
 try:
-    server_handle(msg_parse)
+    server_handle(Message)
 except:
     pass
 

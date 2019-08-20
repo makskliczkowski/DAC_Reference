@@ -3,10 +3,10 @@ import select
 
 # This is a class that handles the whole message with parsing it, then the
 # information will be processed and sent to the DAC inside parse class to adapt by DAC.
-def server_handle(msg_parse):
+def server_handle(Message):
     # Function that will handle server requests, add selectors and allow multiple connections, to be seen how it works
     terminator = '\n'
-    socket = msg_parse.parser.dac.s
+    socket = Message.dac.s
     inputs = [socket]
     outputs = []
 
@@ -21,7 +21,7 @@ def server_handle(msg_parse):
                 else:
                     data = s.receive(1024)  # we take data from client
                     if data:
-                        msg_parse.take_msg(data)
+                        Message.take_msg(data)
                         if s not in outputs:  # if it isn't in outputs add it
                             outputs.append(s)
                     else:  # else if nothing has been sent take connection down
@@ -30,7 +30,7 @@ def server_handle(msg_parse):
                         inputs.remove(s)
                         s.close()
             for s in writable:
-                next_message = msg_parse.send_response()
+                next_message = Message.send_response()
                 if not next_message:
                     break
                 else:
@@ -45,4 +45,4 @@ def server_handle(msg_parse):
         except:
             pass
         finally:
-            msg_parse.__del__()
+            Message.__del__()
