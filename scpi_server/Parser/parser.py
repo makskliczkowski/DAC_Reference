@@ -1,12 +1,11 @@
-from DAC import *
-import DAC
 import Adafruit_BBIO.GPIO as GPIO
+from scpi_server.Common.common import Commons
 
 
-class CommandTree:
+class CommandTree(Commons):
 
-    def __init__(self, dac):
-        self.dac = dac
+    def __init__(self, msg_parse):
+        super().__init__(msg_parse)
         # ROOT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         self.root_short = {
             "SYST": self.root_sys(),
@@ -107,15 +106,23 @@ class CommandTree:
             'RAW': self.volt_raw(),
             'NORM': self.volt_norm()
         }
+        # CURRENT DICTIONARY
+        self.curr_dic_short = self.root_short
+        self.curr_dic_long = self.root_long
+
+    # normal functions
+    def clear_path(self):
+        self.curr_dic_short = self.root_short
+        self.curr_dic_long = self.root_long
 
     # root functions-----------------------------------------------------------
     def root_sys(self):
-        self.dac.msg_parse.curr_dic_short = self.syst_short
-        self.dac.msg_parse.curr_dic_long = self.syst_long
+        self.msg_parse.curr_dic_short = self.syst_short
+        self.msg_parse.curr_dic_long = self.syst_long
 
     def root_stat(self):
-        self.dac.msg_parse.curr_dic_short = self.stat_short
-        self.dac.msg_parse.curr_dic_long = self.stat_long
+        self.msg_parse.curr_dic_short = self.stat_short
+        self.msg_parse.curr_dic_long = self.stat_long
 
     # !!!!!!!!!!!!!!!!!!!!!!! ROOT LEVEL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     # system functions-----------------------------------------------------
@@ -126,7 +133,7 @@ class CommandTree:
         pass
 
     def syst_addr(self):  # function sets dac address - binary
-        temp = list(self.dac.msg_parse.request_val)
+        temp = list(self.msg_parse.request_val)
         try:
             self.dac.dac_address = temp
             GPIO.setup("P9_15", self.dac.dacAddress[0])  # P0
@@ -134,16 +141,16 @@ class CommandTree:
             GPIO.setup("P9_12", self.dac.dacAddress[2])  # P2
             GPIO.setup("P9_13", self.dac.dacAddress[3])  # P3
             GPIO.setup("P9_14", self.dac.dacAddress[4])  # P4
-            self.dac.msg_parse.response += "The address is: [" + str(self.dac.dac_address) + "]\n"
+            self.msg_parse.response += "The address is: [" + str(self.dac.dac_address) + "]\n"
 
         except:
-            self.dac.msg_parse.response += 'SOMETHING WENT WRONG, WRONG ADDRESS' + str(temp)
+            self.msg_parse.response += 'SOMETHING WENT WRONG, WRONG ADDRESS' + str(temp)
 
     def syst_what_addr(self):
-        self.dac.msg_parse.response += "The address is: [" + str(self.dac.dac_address) + "]\n"
+        self.msg_parse.response += "The address is: [" + str(self.dac.dac_address) + "]\n"
 
     def syst_board(self):
-        board = int(self.dac.msg_parse.request_val)
+        board = int(self.msg_parse.request_val)
         if board == 0:
             self.dac.dac_address[2] = 0
             self.dac.dac_address[3] = 0
@@ -169,14 +176,14 @@ class CommandTree:
         GPIO.output("P9_12", self.dac.dac_address[2])
         GPIO.output("P9_13", self.dac.dac_address[3])
         GPIO.output("P9_14", self.dac.dac_address[4])
-        self.dac.msg_parse.response += "The board number is: [" + str(board) + "]\n"
+        self.msg_parse.response += "The board number is: [" + str(board) + "]\n"
 
     def syst_what_board(self):
         board = int(str(self.dac.dac_address[2:], '2'))
-        self.dac.msg_parse.response += "The board number is: [" + str(board) + "]\n"
+        self.msg_parse.response += "The board number is: [" + str(board) + "]\n"
 
     def syst_dac(self):
-        board = int(self.dac.msg_parse.request_val)
+        board = int(self.msg_parse.request_val)
         if board == 0:
             self.dac.dac_address[0] = 0
             self.dac.dac_address[1] = 0
@@ -196,22 +203,21 @@ class CommandTree:
 
         GPIO.output("P9_15", self.dac.dac_address[0])
         GPIO.output("P9_11", self.dac.dac_address[1])
-        self.dac.msg_parse.response += "The DAC number is: [" + str(board) + "]\n"
+        self.msg_parse.response += "The DAC number is: [" + str(board) + "]\n"
 
     def syst_what_dac(self):
         board = int(str(self.dac.dac_address[0:1], '2'))
-        self.dac.msg_parse.response += "The DAC number is: [" + str(board) + "]\n"
+        self.msg_parse.response += "The DAC number is: [" + str(board) + "]\n"
 
     def syst_control(self):
-        self.dac.msg_parse.curr_dic_short = self.control_short
-        self.dac.msg_parse.curr_dic_long = self.control_long
+        self.curr_dic_short = self.control_short
+        self.curr_dic_long = self.control_long
 
     def syst_on(self):
         self.dac.__init__()
 
     def syst_off(self):
         self.dac.__del__()
-        self.__del__()
 
     # status functions--------------------------------------------
     def stat_oper(self):
@@ -226,14 +232,14 @@ class CommandTree:
     # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! SECOND LEVEL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     # control functions
     def contr_volt(self):
-        self.dac.msg_parse.curr_dic_short = self.volt_short
-        self.dac.msg_parse.curr_dic_long = self.volt_long
+        self.curr_dic_short = self.volt_short
+        self.curr_dic_long = self.volt_long
 
     def conrt_ldac_button(self):
-        temp = bool(self.dac.msg_parse.request_val)
+        temp = bool(self.msg_parse.request_val)
         self.dac.ldac = temp
         GPIO.output("P8_17", self.dac.ldac)
-        self.dac.msg_parse.response += "LDAC is set to: [" + str(temp) + "]\n"
+        self.msg_parse.response += "LDAC is set to: [" + str(temp) + "]\n"
 
     def contr_res_button(self):
         temp = bool(self.dac.msg_parse.request_val)
@@ -241,20 +247,20 @@ class CommandTree:
         GPIO.output("P8_18", self.dac.reset)
         GPIO.output("P8_18", 0)  # returns it back to 0
         if temp == 1:
-            self.dac.msg_parse.response += "Reset correct\n"
+            self.msg_parse.response += "Reset correct\n"
         else:
-            self.dac.msg_parse.response += "Reset incorrect\n"
+            self.msg_parse.response += "Reset incorrect\n"
 
     def contr_what_clock(self):
-        self.dac.msg_parse.response += "CLOCK is set to: [" + str(self.dac.clock) + "]\n"
+        self.msg_parse.response += "CLOCK is set to: [" + str(self.dac.clock) + "]\n"
 
     def contr_clock(self):
-        clock = int(self.dac.msg_parse.request_val)
+        clock = int(self.msg_parse.request_val)
         if self.dac.MIN_CLOCK <= clock <= self.dac.MAX_CLOCK:
             self.dac.spi.msh(clock)
-            self.dac.msg_parse.response += "CLOCK is now set to: [" + str(self.dac.clock) + "]\n"
+            self.msg_parse.response += "CLOCK is now set to: [" + str(self.dac.clock) + "]\n"
         else:
-            self.dac.msg_parse.response += "Something's wrong. CLOCK is set to: [" + str(self.dac.clock) + "]\n"
+            self.msg_parse.response += "Something's wrong. CLOCK is set to: [" + str(self.dac.clock) + "]\n"
 
     # operation functions -----------------------------------------------------
     def oper_event(self):
@@ -285,27 +291,27 @@ class CommandTree:
     # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! THIRD LEVEL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     # voltage
     def volt_raw(self):
-        raw = int(self.dac.msg_parse.request_val)
+        raw = int(self.msg_parse.request_val)
         if self.dac.MAX_POS >= raw >= self.dac.MAX_NEG:
             self.dac.act_val = raw
-            self.dac.msg_parse.response += "Actual value is: " + str(self.dac.act_val) + "\n"
+            self.msg_parse.response += "Actual value is: " + str(self.dac.act_val) + "\n"
         else:
             self.dac.act_val = 0  # if we go out of range we get 0
-            self.dac.msg_parse.response += "Out of range[-1,1] or 0. Actual value is: " + str(self.dac.act_val) + "\n"
+            self.msg_parse.response += "Out of range[-1,1] or 0. Actual value is: " + str(self.dac.act_val) + "\n"
         self.dac.registerValue()
 
     def volt_norm(self):
-        norm = int(self.dac.msg_parse.request_val)
+        norm = int(self.msg_parse.request_val)
         if 0 < norm <= 1:
             self.dac.act_val = int(self.dac.MAX_POS * norm)
-            self.dac.msg_parse.response += "Actual value is: " + str(self.dac.act_val) + "\n"
+            self.msg_parse.response += "Actual value is: " + str(self.dac.act_val) + "\n"
         elif 0 > norm >= -1:
             self.dac.act_val = int(-self.dac.MAX_NEG * norm)
-            self.dac.msg_parse.response += "Actual value is: " + str(self.dac.act_val) + "\n"
+            self.msg_parse.response += "Actual value is: " + str(self.dac.act_val) + "\n"
         else:
             self.dac.act_val = 0
-            self.dac.msg_parse.response += "Out of range[-1,1] or 0. Actual value is: " + str(self.dac.act_val) + "\n"
+            self.msg_parse.response += "Out of range[-1,1] or 0. Actual value is: " + str(self.dac.act_val) + "\n"
         self.dac.registerValue()
 
     def __del__(self):
-        pass
+        self.dac.__del__()

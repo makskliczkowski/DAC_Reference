@@ -1,9 +1,9 @@
-from Common.common import *
-from Parser.parser import *
-
 import socket
 import Adafruit_BBIO.GPIO as GPIO
 from Adafruit_BBIO.SPI import SPI
+
+from scpi_server.Common.common import Commons
+from scpi_server.Parser.parser import CommandTree
 
 
 def convertComplement_DAC(value, width=20):
@@ -66,17 +66,12 @@ def convertComplement_DAC(value, width=20):
 # ADD ERRORS CLASSES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 class DAC:
 
-    def __init__(self):
+    def __init__(self, dictionary):
         # create outer classes with ability to change inner parameters
-        self.parser = CommandTree(self)
-        self.msg_parse = self.ParseMessage(self)
-        self.commons = Commons(self)
 
-        self.commons.__init__(self)
-        self.parser.__init__(self)
-        self.msg_parse.__init__(self)
         # using two's complement
         # CONSTS
+        self.dictionary = dictionary
         self.DAC_SEND = "0001"  # value to be sending information to dac
         self.MAX_NEG = -pow(2, 19)  # max neg value that can be achieved
         self.MAX_POS = int(0b01111111111111111111)  # max pos value that can be achieved
@@ -112,7 +107,7 @@ class DAC:
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def __del__(self):
-        self.parser.contr_res_button()  # reset voltage
+        self.dictionary.contr_res_button()  # reset voltage
         self.spi.close()  # spi close
         self.s.close()  # server close
 
@@ -141,161 +136,9 @@ class DAC:
             self.spi.writebytes([int(string1, 2), int(string2, 2), int(string3, 2)])
             GPIO.output("P8_17", GPIO.LOW)
         else:
-            self.parser.contr_res_button()
+            self.dictionary.contr_res_button()
 
     # A class that will parse information, contain current path, include message to be sent back, request will
     # be proceeded after receiving value that user wants from us. The message will be provided in ASCI format.
-    class ParseMessage:
-        def __init__(self, dac):
-            # to allow memory of current path we will save a string path and every time when we go to other path we
-            # wil change the dictionary with inner functions from common or parser, thanks to that we don't need to
-            # worry about getting in other dictionaries!
-            self.current_branch = ""
-            self.curr_dic_short = dac.parser.root_short
-            self.curr_dic_long = dac.parser.root_long
-            self.request = None  # current request
-            self.request_val = None  # current request value
-            self.response = None  # This will be the response to send to the client
-            self.message = ""  # Message that server got
-            self.expect_request = False  # we will make functions in dictionary expect request
 
-            self.terminator = '\n'
-            self.command_separator = ';'
-            # A semicolon separates two commands in the same message without changing
-            # the current path.
-            self.path_separator = ':'
-            # When a colon is between two command keywords, it moves the current path down
-            # one level in the command tree.
-            self.parameters_separator = ','
-            self.query = '?'
 
-            self.dac = dac
-
-        def take_msg(self, data):
-            self.message = data.decode("ascii")
-
-        def send_response(self):
-            return self.response
-
-        def clear_path(self):
-            self.current_branch = ""
-            self.curr_dic_short = self.dac.parser.root_short
-            self.curr_dic_long = self.dac.parser.root_long
-            self.message = ""
-
-        def find_path(self, path_temp):
-            # we now check for instance of the path in the dictionary
-            err_short = self.curr_dic_short(str(path_temp).upper())
-            err_long = self.curr_dic_long(str(path_temp).upper())
-            # ADD ERRRRORRORORORORR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            error = err_long == -1 and err_short == -1
-            if error:
-                self.response = "Wrong path, problem with: (No such directory) - " + str(path_temp) + "Try again\n"
-                self.message = ""
-            return error
-
-        def find_in_common(self, path_temp):
-            error = self.dac.commons.common(str(path_temp).upper())
-            if not error:
-                self.response = "Wrong path, problem with: (No such directory) - " + str(path_temp) + "Try again\n"
-                self.message = ""
-            return error
-
-        # we define request sending function as it may be finishing command
-        def request_sending(self, path_temp):
-            self.request_val = path_temp
-            self.space_handle()
-            error = self.find_path(self.request)  # now we can execute function from request
-            self.request_val = ""
-            self.request = ""
-            if not error:
-                self.response = "Wrong path, problem with: (No such directory) - " + str(path_temp) + "Try again\n"
-                self.message = ""
-            return error
-
-        # three finishing commands are possible
-        #   -change the path
-        #   -request handle
-        #   -common request
-        def msg_handle(self, msg):
-            self.message = msg
-            temp = list(self.message)
-            if temp[0] == self.path_separator and self.current_branch == "":
-                del temp[0]
-                # we are at the root branch
-            elif temp[0] == self.path_separator and not self.current_branch == "":
-                self.response = "Can't access you path " + msg + ". Can't use : at the beginning. Try again\n"
-                self.message = ""
-                return
-                # Later add error!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            # now we iterate on requested path
-            path_temp = list()
-            # our possibilities are:
-            #   -terminator - finishes sentence and clears path
-            #   -finish of temp - finishes sentence and leaves path
-            #   -white space - can be omitted after : or ; or can mean that we wait for the request
-            #   -: - we know that we need to change path
-            #   -; - we start a new command either by resetting path with ;: or in the same directory
-            for i in temp:
-                path_temp.append(temp[i])
-                # terminator clears the path!
-                if temp[i] == self.terminator:
-                    if self.expect_request:
-                        error = self.request_sending(path_temp)
-                        if error == -1:
-                            return -1
-                    else:
-                        error = self.find_in_common(path_temp)
-                        if error == -1:
-                            return -1
-                    error = 0
-                    return error  # 0 is returned when no error occurred!
-                # if we get ; we pop it back, check for request and if no request needed then check in common
-                # as it hasn't been already executed before, we just check if it's a command without parameters
-                if temp[i] == self.command_separator:
-                    path_temp.pop()
-                    if self.expect_request:
-                        error = self.request_sending(path_temp)
-                        if error == -1:
-                            return -1
-                    else:
-                        error = self.find_in_common(path_temp)
-                        if error == -1:
-                            return -1
-                    path_temp = []
-                    continue
-                # if we get :
-                if temp[i] == self.path_separator:
-                    if temp[i - 1] == self.command_separator:
-                        # if we have combination ;: we need to clear path
-                        self.clear_path()
-                        path_temp = []
-                        continue
-                    path_temp.pop()  # remove : from the end
-                    error = self.find_path(path_temp)
-                    if error == -1:
-                        return -1
-                    self.current_branch = self.current_branch + ":" + str(path_temp)
-                    path_temp = []
-                    continue
-                # <WSP> handling and request processing
-                if temp[i] == " " and (temp[i - 1] == self.path_separator or temp[i - 1] == self.command_separator):
-                    # ignore whitespaces after : or ;
-                    path_temp.pop()
-                    continue
-                if temp[i] == " " and (temp[i - 1] != self.path_separator or temp[i - 1] != self.command_separator):
-                    # whitespace after command makes expecting response
-                    path_temp.pop()
-                    error = self.request = path_temp  # we are waiting for request value before getting it done
-                    if error == -1:
-                        return -1
-                    path_temp = []
-                    continue
-
-        def space_handle(self):
-            temp = list(self.request_val)
-            for i in temp:
-                if temp[i] == " ":
-                    del temp[i]
-            self.request_val = temp
-            return

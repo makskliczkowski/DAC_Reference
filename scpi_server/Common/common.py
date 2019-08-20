@@ -5,13 +5,14 @@ description of every function.
 
 
 '''
-from DAC import *
+from scpi_server.DAC import DAC
 
 
 class Commons:
-    def __init__(self, dac):
-        self.dac = dac
 
+    def __init__(self, msg_parse):
+        self.msg_parse = msg_parse
+        self.dac = DAC(self)
         self.common = {
             '*CLS': self.clear_status(),
             '*ESE': self.set_ese(),
@@ -42,9 +43,9 @@ class Commons:
         pass
 
     def device_id(self):
-        self.dac.msg_parse.response = "The device is created for the request of precise voltage controlling using " \
-                                     "boards with DAC chips. Implementation project for MPQ by Maksymilian " \
-                                     "Kliczkowski\n "
+        self.msg_parse.response = "The device is created for the request of precise voltage controlling using " \
+                                      "boards with DAC chips. Implementation project for MPQ by Maksymilian " \
+                                      "Kliczkowski\n "
 
     def status(self):
         pass
@@ -56,7 +57,7 @@ class Commons:
         pass
 
     def reset_tree(self):
-        self.dac.msg_parse.clear_path()
+        self.msg_parse.clear_path()
 
     def serv_enable(self):
         pass
