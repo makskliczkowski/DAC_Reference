@@ -1,5 +1,5 @@
-from .SCPI_server import *
-from .DAC import *
+import SCPI_server
+import DAC
 import sys
 
 dac = DAC()

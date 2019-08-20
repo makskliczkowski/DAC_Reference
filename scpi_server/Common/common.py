@@ -5,7 +5,7 @@ description of every function.
 
 
 '''
-from scpi_server.DAC import DAC
+import ..DAC
 
 
 class Commons(DAC):

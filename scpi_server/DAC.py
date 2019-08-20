@@ -1,5 +1,5 @@
-from .Common.common import *
-from .Parser.parser import *
+from Common import *
+from Parser import *
 
 import socket
 import Adafruit_BBIO.GPIO as GPIO

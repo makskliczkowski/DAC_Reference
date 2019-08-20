@@ -1,4 +1,4 @@
-from scpi_server.DAC import DAC
+import ..DAC
 import Adafruit_BBIO.GPIO as GPIO
 
 
