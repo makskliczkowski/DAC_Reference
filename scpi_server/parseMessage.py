@@ -1,5 +1,4 @@
-from scpi_server.Parser.parser import CommandTree
-
+from parser import *
 
 class ParseMessage:
     def __init__(self):

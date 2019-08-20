@@ -2,8 +2,6 @@ import socket
 import Adafruit_BBIO.GPIO as GPIO
 from Adafruit_BBIO.SPI import SPI
 
-from scpi_server.Common.common import Commons
-from scpi_server.Parser.parser import CommandTree
 
 
 def convertComplement_DAC(value, width=20):

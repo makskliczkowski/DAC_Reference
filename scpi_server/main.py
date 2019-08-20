@@ -1,11 +1,10 @@
-import SCPI_server
-from DAC import *
+from parseMessage import *
 import sys
 
-dac = DAC()
+msg_parse = ParseMessage()
 
 try:
-    server_handle(dac)
+    server_handle(msg_parse)
 except:
     pass
 
