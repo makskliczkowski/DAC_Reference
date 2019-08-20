@@ -1,4 +1,5 @@
-from ..DAC import *
+from DAC import *
+import DAC
 import Adafruit_BBIO.GPIO as GPIO
 
 

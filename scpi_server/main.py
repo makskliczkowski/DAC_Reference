@@ -1,6 +1,5 @@
-from scpi_server.SCPI_server import server_handle
-from . import SCPI_server
-from . import DAC
+import SCPI_server
+from DAC import *
 import sys
 
 dac = DAC()

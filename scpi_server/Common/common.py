@@ -5,11 +5,13 @@ description of every function.
 
 
 '''
-import DAC
+from DAC import *
 
 
 class Commons:
-    def __init__(self,dac):
+    def __init__(self, dacs):
+        self.dac = dacs
+
         self.common = {
             '*CLS': self.clear_status(),
             '*ESE': self.set_ese(),
@@ -40,7 +42,7 @@ class Commons:
         pass
 
     def device_id(self):
-        self.ParseMessage.response = "The device is created for the request of precise voltage controlling using " \
+        self.dac.msg_parse.response = "The device is created for the request of precise voltage controlling using " \
                                      "boards with DAC chips. Implementation project for MPQ by Maksymilian " \
                                      "Kliczkowski\n "
 
@@ -54,7 +56,7 @@ class Commons:
         pass
 
     def reset_tree(self):
-        self.ParseMessage.clear_path()
+        self.dac.msg_parse.clear_path()
 
     def serv_enable(self):
         pass

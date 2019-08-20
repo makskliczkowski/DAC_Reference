@@ -1,5 +1,5 @@
 import select
-from . import DAC
+import DAC
 
 
 # This is a class that handles the whole message with parsing it, then the

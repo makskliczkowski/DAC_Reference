@@ -1,5 +1,5 @@
-from .Common.common import *
-from .Parser.parser import *
+from Common.common import *
+from Parser.parser import *
 
 import socket
 import Adafruit_BBIO.GPIO as GPIO
@@ -68,9 +68,9 @@ class DAC:
 
     def __init__(self):
         # create outer classes with ability to change inner parameters
-        self.commons = Commons(self)
-        self.parser = CommandTree(self)
+        self.parser = self.CommandTree(self)
         self.msg_parse = self.ParseMessage(self)
+        self.commons = Commons(self)
 
         self.commons.__init__(self)
         self.parser.__init__(self)
