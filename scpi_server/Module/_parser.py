@@ -3,7 +3,8 @@ from Adafruit_BBIO.SPI import SPI
 
 
 def parse_dict(self):
-    # ROOT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    # !!ROOT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
     self.root_short = {
         "SYST": self.root_sys(),
         "STAT": self.root_stat()
@@ -13,7 +14,7 @@ def parse_dict(self):
         "STATUS": self.root_stat()
     }
     # !!!!!!!!!!!!!!!FIRST FLOOR !!!!!!!!!!!!!!!!!!!!!!!!
-    # SYSTEM @@@@@@
+    # !!SYSTEM @@@@@@
     self.syst_short = {
         'ERR': self.syst_error(),
         'VERS?': self.syst_version(),
@@ -40,7 +41,7 @@ def parse_dict(self):
         'ON': self.syst_on(),
         'OFF': self.syst_off()
     }
-    # STATUS @@@@@@@
+    # !!STATUS @@@@@@@
     self.stat_short = {
         'OPER': self.stat_oper(),
         'QUES': self.stat_questionable(),
