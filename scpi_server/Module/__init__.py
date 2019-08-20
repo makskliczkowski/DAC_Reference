@@ -1,4 +1,4 @@
-from ..DAC import DAC
+from DAC import DAC
 
 
 class Message(object):
@@ -8,9 +8,11 @@ class Message(object):
 
     def __init__(self):
         self.dac = DAC()  # dac create
-        self.common_dict(self)  # create common dictionary
-        self.msg_parse_info(self)  # Create every information to provide msg parsing
-        self.parse_dict(self)  # Create parse dictionary
+
+        self.msg_parse_info()  # Create every information to provide msg parsing
+        self.parse_dict()  # Create parse dictionary
+        self.common_dict() # create common dictionary
+
         self.response = None  # This will be the response to send to the client
         self.message = ""  # Message that server got
 

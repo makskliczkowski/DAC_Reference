@@ -1,5 +1,5 @@
-from .Module.__init__ import *
-from .SCPI_server import *
+from Module.__init__ import *
+from SCPI_server import *
 import sys
 
 Message = Message()

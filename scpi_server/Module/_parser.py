@@ -1,9 +1,12 @@
+import copy
+
 import Adafruit_BBIO.GPIO as GPIO
 from Adafruit_BBIO.SPI import SPI
 
 
 def parse_dict(self):
-    # ROOT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    # !!ROOT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
     self.root_short = {
         "SYST": self.root_sys(),
         "STAT": self.root_stat()
@@ -13,7 +16,7 @@ def parse_dict(self):
         "STATUS": self.root_stat()
     }
     # !!!!!!!!!!!!!!!FIRST FLOOR !!!!!!!!!!!!!!!!!!!!!!!!
-    # SYSTEM @@@@@@
+    # !!SYSTEM @@@@@@
     self.syst_short = {
         'ERR': self.syst_error(),
         'VERS?': self.syst_version(),
@@ -40,7 +43,7 @@ def parse_dict(self):
         'ON': self.syst_on(),
         'OFF': self.syst_off()
     }
-    # STATUS @@@@@@@
+    # !!STATUS @@@@@@@
     self.stat_short = {
         'OPER': self.stat_oper(),
         'QUES': self.stat_questionable(),
@@ -112,14 +115,15 @@ def parse_dict(self):
 
 
 # root functions-----------------------------------------------------------
+@staticmethod
 def root_sys(self):
-    self.curr_dic_short = self.syst_short
-    self.curr_dic_long = self.syst_long
+    self.curr_dic_short = copy.deepcopy(self.syst_short)
+    self.curr_dic_long = copy.deepcopy(self.syst_long)
 
-
+@staticmethod
 def root_stat(self):
-    self.curr_dic_short = self.stat_short
-    self.curr_dic_long = self.stat_long
+    self.curr_dic_short = copy.deepcopy(self.stat_short)
+    self.curr_dic_long = copy.deepcopy(self.stat_long)
 
 
 # !!!!!!!!!!!!!!!!!!!!!!! ROOT LEVEL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -214,10 +218,10 @@ def syst_what_dac(self):
     board = int(str(self.dac.dac_address[0:1], '2'))
     self.response += "The DAC number is: [" + str(board) + "]\n"
 
-
+@staticmethod
 def syst_control(self):
-    self.curr_dic_short = self.control_short
-    self.curr_dic_long = self.control_long
+    self.curr_dic_short = copy.deepcopy(self.control_short)
+    self.curr_dic_long = copy.deepcopy(self.control_long)
 
 
 def syst_on(self):
@@ -243,9 +247,10 @@ def stat_preset(self):
 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! SECOND LEVEL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # control functions
+@staticmethod
 def contr_volt(self):
-    self.curr_dic_short = self.volt_short
-    self.curr_dic_long = self.volt_long
+    self.curr_dic_short = copy.deepcopy(self.volt_short)
+    self.curr_dic_long = copy.deepcopy(self.volt_long)
 
 
 def conrt_ldac_button(self):
