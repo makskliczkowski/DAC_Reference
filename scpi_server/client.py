@@ -6,7 +6,7 @@ terminator = '\n'
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((IP, PORT))
-print(f"connected to {IP}:{PORT}")
+print("connected to", IP, ":", PORT)
 s.setblocking(False)
 s.connect_ex((IP, PORT))
 

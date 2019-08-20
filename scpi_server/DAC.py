@@ -68,7 +68,7 @@ class DAC:
 
     def __init__(self):
         # create outer classes with ability to change inner parameters
-        self.parser = self.CommandTree(self)
+        self.parser = CommandTree(self)
         self.msg_parse = self.ParseMessage(self)
         self.commons = Commons(self)
 

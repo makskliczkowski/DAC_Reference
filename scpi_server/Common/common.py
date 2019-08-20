@@ -9,8 +9,8 @@ from DAC import *
 
 
 class Commons:
-    def __init__(self, dacs):
-        self.dac = dacs
+    def __init__(self, dac):
+        self.dac = dac
 
         self.common = {
             '*CLS': self.clear_status(),
