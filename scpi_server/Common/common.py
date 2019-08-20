@@ -5,7 +5,7 @@ description of every function.
 
 
 '''
-import ..DAC
+import DAC
 
 
 class Commons(DAC):

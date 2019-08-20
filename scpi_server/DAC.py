@@ -1,5 +1,5 @@
-from Common import *
-from Parser import *
+from Common.common import *
+from Parser.parser import *
 
 import socket
 import Adafruit_BBIO.GPIO as GPIO
@@ -113,7 +113,7 @@ class DAC(CommandTree, Commons):
         self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.s.bind((self.IP, self.PORT))
         self.s.listen(buffer)
-        print(f"Creation of server on {(self.IP, self.PORT)} successful")
+        print("Creation of server successful on", self.IP, self.PORT)
         self.s.setblocking(False)
 
     def initializeDAC(self):  # we can always change the initialize and make it more flexible
