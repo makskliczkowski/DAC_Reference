@@ -1,12 +1,11 @@
-import selectors
-import types
-import select, sys
+import select
 
 
 # This is a class that handles the whole message with parsing it, then the
 # information will be processed and sent to the DAC inside parse class to adapt by DAC.
 def server_handle(dac):
     # Function that will handle server requests, add selectors and allow multiple connections, to be seen how it works
+    terminator = '\n'
     inputs = [dac.s]
     outputs = []
 
@@ -34,7 +33,7 @@ def server_handle(dac):
                 if not next_message:
                     break
                 else:
-                    s.send(next_message)
+                    s.send(bytes(next_message+terminator))
             for s in exceptional:
                 inputs.remove(s)
                 if s in outputs:

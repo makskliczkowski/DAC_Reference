@@ -1,9 +1,13 @@
 from .SCPI_server import *
-
+from .DAC import *
+import sys
 
 dac = DAC()
 dac.__init__()
 
-sel = selectors.DefaultSelector()
-sel.register(dac.s, selectors.EVENT_READ, data=None)
+
+try:
+    server_handle(dac)
+except:
+    pass
 

@@ -40,7 +40,9 @@ class Commons(DAC):
         pass
 
     def device_id(self):
-        pass
+        self.ParseMessage.response = "The device is created for the request of precise voltage controlling using " \
+                                     "boards with DAC chips. Implementation project for MPQ by Maksymilian " \
+                                     "Kliczkowski\n "
 
     def status(self):
         pass
@@ -52,7 +54,7 @@ class Commons(DAC):
         pass
 
     def reset_tree(self):
-        pass
+        self.ParseMessage.clear_path()
 
     def serv_enable(self):
         pass

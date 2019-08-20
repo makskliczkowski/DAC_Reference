@@ -166,7 +166,7 @@ class DAC(CommandTree, Commons):
             self.message = data.decode("ascii")
 
         def send_response(self):
-            return self.response.encode()
+            return self.response
 
         def clear_path(self):
             self.current_branch = ""
@@ -239,7 +239,6 @@ class DAC(CommandTree, Commons):
                         error = self.find_in_common(path_temp)
                         if error == -1:
                             return -1
-                    path_temp = []
                     error = 0
                     return error  # 0 is returned when no error occurred!
                 # if we get ; we pop it back, check for request and if no request needed then check in common

@@ -32,7 +32,7 @@ class CommandTree(DAC):
         self.syst_long = {
             'ERROR': self.syst_error(),
             'VERSION?': self.syst_version(),
-            'ADDRESS': self.syst_addr(self.ParseMessage.request_val),  # sets DAC address
+            'ADDRESS': self.syst_addr(),  # sets DAC address
             'ADDRESS?': self.syst_what_addr(),  # what DAC address we have?
             'BOARD': self.syst_board(),  # DIRECTLY SETS BOARD NUMBER
             'BOARD?': self.syst_what_board(),  # What is the board number
