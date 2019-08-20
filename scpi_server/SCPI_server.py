@@ -1,4 +1,5 @@
 import select
+from . import DAC
 
 
 # This is a class that handles the whole message with parsing it, then the
@@ -20,7 +21,7 @@ def server_handle(dac):
                 else:
                     data = s.receive(1024)  # we take data from client
                     if data:
-                        dac.take_msg(data)
+                        dac.msg_parse.take_msg(data)
                         if s not in outputs:  # if it isn't in outputs add it
                             outputs.append(s)
                     else:  # else if nothing has been sent take connection down
@@ -29,11 +30,11 @@ def server_handle(dac):
                         inputs.remove(s)
                         s.close()
             for s in writable:
-                next_message = dac.send_response()
+                next_message = dac.msg_parse.send_response()
                 if not next_message:
                     break
                 else:
-                    s.send(bytes(next_message+terminator))
+                    s.send(bytes(next_message + terminator))
             for s in exceptional:
                 inputs.remove(s)
                 if s in outputs:

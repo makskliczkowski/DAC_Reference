@@ -1,5 +1,5 @@
-from Common.common import *
-from Parser.parser import *
+from .Common.common import *
+from .Parser.parser import *
 
 import socket
 import Adafruit_BBIO.GPIO as GPIO
@@ -64,9 +64,17 @@ def convertComplement_DAC(value, width=20):
 
 
 # ADD ERRORS CLASSES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-class DAC(CommandTree, Commons):
+class DAC:
 
     def __init__(self):
+        # create outer classes with ability to change inner parameters
+        self.commons = Commons(self)
+        self.parser = CommandTree(self)
+        self.msg_parse = self.ParseMessage(self)
+
+        self.commons.__init__(self)
+        self.parser.__init__(self)
+        self.msg_parse.__init__(self)
         # using two's complement
         # CONSTS
         self.DAC_SEND = "0001"  # value to be sending information to dac
@@ -104,7 +112,7 @@ class DAC(CommandTree, Commons):
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def __del__(self):
-        self.contr_res_button()  # reset voltage
+        self.parser.contr_res_button()  # reset voltage
         self.spi.close()  # spi close
         self.s.close()  # server close
 
@@ -125,27 +133,26 @@ class DAC(CommandTree, Commons):
 
         self.initializeDAC()
         if self.act_val != 0:
-            temp = convertComplement_DAC(self.actVal, 20)
-            string1 = self.dacSend + temp[0:4]
+            temp = convertComplement_DAC(self.act_val, 20)
+            string1 = self.DAC_SEND + temp[0:4]
             string2 = temp[4:12]
             string3 = temp[12:]
             GPIO.output("P8_17", GPIO.HIGH)
             self.spi.writebytes([int(string1, 2), int(string2, 2), int(string3, 2)])
             GPIO.output("P8_17", GPIO.LOW)
         else:
-            self.contr_res_button()
+            self.parser.contr_res_button()
 
     # A class that will parse information, contain current path, include message to be sent back, request will
     # be proceeded after receiving value that user wants from us. The message will be provided in ASCI format.
-    class ParseMessage(Commons, CommandTree):
-        def __init__(self):
+    class ParseMessage:
+        def __init__(self, dac):
             # to allow memory of current path we will save a string path and every time when we go to other path we
             # wil change the dictionary with inner functions from common or parser, thanks to that we don't need to
             # worry about getting in other dictionaries!
-            super().__init__()
             self.current_branch = ""
-            self.curr_dic_short = CommandTree.root_short
-            self.curr_dic_long = CommandTree.root_long
+            self.curr_dic_short = dac.parser.root_short
+            self.curr_dic_long = dac.parser.root_long
             self.request = None  # current request
             self.request_val = None  # current request value
             self.response = None  # This will be the response to send to the client
@@ -162,6 +169,8 @@ class DAC(CommandTree, Commons):
             self.parameters_separator = ','
             self.query = '?'
 
+            self.dac = dac
+
         def take_msg(self, data):
             self.message = data.decode("ascii")
 
@@ -170,8 +179,8 @@ class DAC(CommandTree, Commons):
 
         def clear_path(self):
             self.current_branch = ""
-            self.curr_dic_short = CommandTree.root_short
-            self.curr_dic_long = CommandTree.root_long
+            self.curr_dic_short = self.dac.parser.root_short
+            self.curr_dic_long = self.dac.parser.root_long
             self.message = ""
 
         def find_path(self, path_temp):
@@ -186,7 +195,7 @@ class DAC(CommandTree, Commons):
             return error
 
         def find_in_common(self, path_temp):
-            error = self.common(str(path_temp).upper())
+            error = self.dac.commons.common(str(path_temp).upper())
             if not error:
                 self.response = "Wrong path, problem with: (No such directory) - " + str(path_temp) + "Try again\n"
                 self.message = ""
@@ -284,9 +293,9 @@ class DAC(CommandTree, Commons):
                     continue
 
         def space_handle(self):
-            temp = list(self.ParseMessage.request_val)
+            temp = list(self.request_val)
             for i in temp:
                 if temp[i] == " ":
                     del temp[i]
-            self.ParseMessage.request_val = temp
+            self.request_val = temp
             return

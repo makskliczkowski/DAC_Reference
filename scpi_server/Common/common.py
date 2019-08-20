@@ -8,8 +8,8 @@ description of every function.
 import DAC
 
 
-class Commons(DAC):
-    def __init__(self):
+class Commons:
+    def __init__(self,dac):
         self.common = {
             '*CLS': self.clear_status(),
             '*ESE': self.set_ese(),
