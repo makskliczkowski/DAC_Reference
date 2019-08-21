@@ -11,12 +11,12 @@ class Message(object):
     def __init__(self):
         self.dac = DAC()  # dac create
 
+        self.response = "" # This will be the response to send to the client
+        self.message = "" # Message that server got
+
         self.msg_parse_info()  # Create every information to provide msg parsing
         self.parse_dict()  # Create parse dictionary
         self.common_dict()  # create common dictionary
-
-        self.response = None  # This will be the response to send to the client
-        self.message = ""  # Message that server got
 
     def take_msg(self, data):
         self.message = data.decode("ascii")

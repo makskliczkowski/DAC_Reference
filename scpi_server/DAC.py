@@ -46,7 +46,7 @@ class DAC:
 
         # server
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
+        self.serv_create(5)
     @staticmethod
     def reset_dac():
         GPIO.output("P8_18", 1)
@@ -63,7 +63,7 @@ class DAC:
         self.s.bind((self.IP, self.PORT))
         self.s.listen(buffer)
         print("Creation of server successful on", self.IP, self.PORT)
-        self.s.setblocking(False)
+        #self.s.setblocking(False)
 
     def initializeDAC(self):  # we can always change the initialize and make it more flexible
         GPIO.output("P8_17", GPIO.HIGH)
@@ -82,7 +82,7 @@ class DAC:
             self.spi.writebytes([int(string1, 2), int(string2, 2), int(string3, 2)])
             GPIO.output("P8_17", GPIO.LOW)
         else:
-            self.dictionary.contr_res_button()
+            self.reset_dac()
 
     @staticmethod
     def convertComplement_DAC(value, width=20):

@@ -9,20 +9,20 @@ register_method = Lib.register_method(__methods__)
 @register_method
 def common_dict(self):
     self.common = {
-        '*CLS': self.clear_status(),
-        '*ESE': self.set_ese(),
-        '*ESE?': self.reg_status(),
-        '*ESR?': self.reg_status_clean(),
-        '*IDN?': self.device_id(),
-        '*IST?': self.status(),
-        '*OPC': self.op_complete(),
-        '*OPC?': self.is_op_complete(),
-        '*RST': self.reset_tree(),
-        '*SRE': self.serv_enable(),
-        '*SRE?': self.serv_query(),
-        '*STB?': self.status_byte(),
-        '*TST?': self.self_test(),
-        '*WAI': self.wait()
+        '*CLS': self.clear_status,
+        '*ESE': self.set_ese,
+        '*ESE?': self.reg_status,
+        '*ESR?': self.reg_status_clean,
+        '*IDN?': self.device_id,
+        '*IST?': self.status,
+        '*OPC': self.op_complete,
+        '*OPC?': self.is_op_complete,
+        '*RST': self.reset_tree,
+        '*SRE': self.serv_enable,
+        '*SRE?': self.serv_query,
+        '*STB?': self.status_byte,
+        '*TST?': self.self_test,
+        '*WAI': self.wait
     }
 
 
