@@ -25,12 +25,9 @@ def server_handle(Message):
         connection, addr = socke.accept()  # Should be ready to read
         print('accepted connection from', addr)
         connection.setblocking(False)
-        print('debug1')
         dat = addr
-        print('debug2')
         event = selectors.EVENT_READ | selectors.EVENT_WRITE
         selector.register(connection, event, data=dat)
-        print('debug3')
 
     terminator = '\n'
 
@@ -44,7 +41,7 @@ def server_handle(Message):
     msg = ""
     try:
         while True:
-            events = sel.select(timeout=600)
+            events = sel.select(timeout=None)
             for key, mask in events:
                 if key.data is None:
                     accept_wrapper(key.fileobj, sel)
