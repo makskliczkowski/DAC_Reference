@@ -1,47 +1,67 @@
-import select
-
+import selectors
+import socket
+import types
 
 # This is a class that handles the whole message with parsing it, then the
 # information will be processed and sent to the DAC inside parse class to adapt by DAC.
+def serv_create(s, buffer=5):
+    IP = "192.168.0.20"
+    PORT = 5555
+    # Avoid bind() exception: OSError: [Errno 48] Address already in use
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    s.bind((IP, PORT))
+    s.listen(buffer)
+    print("Creation of server successful on", IP, PORT)
+    # self.s.setblocking(False)
+
+
 def server_handle(Message):
     # Function that will handle server requests, add selectors and allow multiple connections, to be seen how it works
-    terminator = '\n'
-    socket = Message.dac.s
-    inputs = [socket]
-    outputs = [socket]
-    msg=""
-    try:
-        while inputs:
-            readable, writable, exceptional = select.select(inputs, outputs, [])
-            if len(readable) != 0:
 
-                for s in readable:
-                    if s is socket:  # we accept new connections if it is a server
-                        conn, client_addr = s.accept()
-                        print("Accepted connection from: ", client_addr)
-                        inputs.append(conn)
-                    else:
-                        print("Waiting for data to receive")
-                        data = s.recv(1024)  # we take data from client
-                        if data:
-                            Message.take_msg(data)
-                            if s not in outputs:  # if it isn't in outputs add it
-                                outputs.append(s)
-                        else:  # else if nothing has been sent take connection down
-                            if s in outputs:
-                                outputs.remove(s)
-                            inputs.remove(s)
-            for s in writable:
-                next_message = Message.send_response()
-                if not next_message:
-                    break
+    def accept_wrapper(socke, selector):
+        connection, addr = socke.accept()  # Should be ready to read
+        print('accepted connection from', addr)
+        connection.setblocking(False)
+        dat = types.SimpleNamespace(addr=addr, inb=b'', outb=b'')
+        event = selectors.EVENT_READ | selectors.EVENT_WRITE
+        selector.register(connection, event, data=dat)
+
+    terminator = '\n'
+
+    sel = selectors.DefaultSelector()
+
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    serv_create(sock, 5)
+    sock.setblocking(False)
+    sel.register(sock, selectors.EVENT_READ, data=None)
+
+    msg = ""
+    try:
+        while True:
+            events = sel.select(timeout=None)
+            for key, mask in events:
+                if key.data is None:
+                    accept_wrapper(key.fileobj)
                 else:
-                    s.send(bytes(next_message + terminator))
-            for s in exceptional:
-                inputs.remove(s)
-                if s in outputs:
-                    outputs.remove(s)
-                s.close()
+                    temp_sock = key.fileobj
+                    temp_data = key.data
+                    if mask & selectors.EVENT_READ:
+                        # we take the received data and send it to Message to execute it
+                        print("Waiting for data to receive")
+                        recv_data = temp_sock.recv(1024)  # Should be ready to read
+                        if recv_data:
+                            Message.take_msg(recv_data)
+                        else:
+                            print('closing connection to', temp_data.addr)
+                            sel.unregister(sock)
+                            temp_sock.close()
+                    if mask & selectors.EVENT_WRITE:
+                        next_message = Message.send_response()
+                        if not next_message:
+                            continue
+                        else:
+                            temp_sock.send(bytes(next_message + terminator))
+
     except KeyboardInterrupt:
         print("caught keyboard interrupt, exiting")
         Message.__del__()

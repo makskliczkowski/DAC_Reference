@@ -1,4 +1,3 @@
-import socket
 import Adafruit_BBIO.GPIO as GPIO
 from Adafruit_BBIO.SPI import SPI
 
@@ -45,8 +44,7 @@ class DAC:
         GPIO.setup("P9_14", GPIO.OUT)  # P4
 
         # server
-        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.serv_create(5)
+
     @staticmethod
     def reset_dac():
         GPIO.output("P8_18", 1)
@@ -56,14 +54,6 @@ class DAC:
         self.reset_dac()  # reset voltage
         self.spi.close()  # spi close
         self.s.close()  # server close
-
-    def serv_create(self, buffer=5):
-        # Avoid bind() exception: OSError: [Errno 48] Address already in use
-        self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.s.bind((self.IP, self.PORT))
-        self.s.listen(buffer)
-        print("Creation of server successful on", self.IP, self.PORT)
-        #self.s.setblocking(False)
 
     def initializeDAC(self):  # we can always change the initialize and make it more flexible
         GPIO.output("P8_17", GPIO.HIGH)
