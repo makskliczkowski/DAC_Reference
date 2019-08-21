@@ -9,54 +9,17 @@ register_method = Lib.register_method(__methods__)
 
 @register_method
 def parse_dict(self):
-    # !!ROOT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-    self.root_short = {
-        "SYST": self.root_sys(),
-        "STAT": self.root_stat()
+    # CURRENT DICTIONARY
+    self.curr_dic_short = self.root_short
+    self.curr_dic_long = self.root_long
+    # !!!!!!!!!!!!!!! THIRD FLOOR !!!!!!!!!!!!!!!!!!!!!!!
+    self.volt_short = {
+        'RAW': self.volt_raw(),
+        'NORM': self.volt_norm()
     }
-    self.root_long = {
-        "SYSTEM": self.root_sys(),
-        "STATUS": self.root_stat()
-    }
-    # !!!!!!!!!!!!!!!FIRST FLOOR !!!!!!!!!!!!!!!!!!!!!!!!
-    # !!SYSTEM @@@@@@
-    self.syst_short = {
-        'ERR': self.syst_error(),
-        'VERS?': self.syst_version(),
-        'ADDR': self.syst_addr(),  # sets DAC address
-        'ADDR?': self.syst_what_addr(),  # what DAC address we have?
-        'BOAR': self.syst_board(),  # DIRECTLY SETS BOARD NUMBER
-        'BOAR?': self.syst_what_board(),  # What is the board number
-        'DAC': self.syst_dac(),  # Directly sets dac number on the board
-        'DAC?': self.syst_what_dac(),  # What is the DAC number
-        'CONT': self.syst_control(),
-        'ON': self.syst_on(),
-        'OFF': self.syst_off()
-    }
-    self.syst_long = {
-        'ERROR': self.syst_error(),
-        'VERSION?': self.syst_version(),
-        'ADDRESS': self.syst_addr(),  # sets DAC address
-        'ADDRESS?': self.syst_what_addr(),  # what DAC address we have?
-        'BOARD': self.syst_board(),  # DIRECTLY SETS BOARD NUMBER
-        'BOARD?': self.syst_what_board(),  # What is the board number
-        'DAC': self.syst_dac(),  # Directly sets dac number on the board
-        'DAC?': self.syst_what_dac(),  # What is the DAC number
-        'CONTROL': self.syst_control(),
-        'ON': self.syst_on(),
-        'OFF': self.syst_off()
-    }
-    # !!STATUS @@@@@@@
-    self.stat_short = {
-        'OPER': self.stat_oper(),
-        'QUES': self.stat_questionable(),
-        'PRES': self.stat_preset()
-    }
-    self.stat_long = {
-        'OPERATION': self.stat_oper(),
-        'QUESTIONABLE': self.stat_questionable(),
-        'PRESET': self.stat_preset()
+    self.volt_long = {
+        'RAW': self.volt_raw(),
+        'NORM': self.volt_norm()
     }
     # !!!!!!!!!!!!!!!SECOND FLOOR !!!!!!!!!!!!!!!!!!!!!!!
     # SYST/CONTROL @@@@@@
@@ -101,18 +64,56 @@ def parse_dict(self):
         'ENABLE': self.quest_enable(),
         'ENABLE?': self.quest_is_enabled()
     }
-    # !!!!!!!!!!!!!!! THIRD FLOOR !!!!!!!!!!!!!!!!!!!!!!!
-    self.volt_short = {
-        'RAW': self.volt_raw(),
-        'NORM': self.volt_norm()
+
+    # !!!!!!!!!!!!!!!FIRST FLOOR !!!!!!!!!!!!!!!!!!!!!!!!
+    # !!SYSTEM @@@@@@
+    self.syst_short = {
+        'ERR': self.syst_error(),
+        'VERS?': self.syst_version(),
+        'ADDR': self.syst_addr(),  # sets DAC address
+        'ADDR?': self.syst_what_addr(),  # what DAC address we have?
+        'BOAR': self.syst_board(),  # DIRECTLY SETS BOARD NUMBER
+        'BOAR?': self.syst_what_board(),  # What is the board number
+        'DAC': self.syst_dac(),  # Directly sets dac number on the board
+        'DAC?': self.syst_what_dac(),  # What is the DAC number
+        'CONT': self.syst_control(),
+        'ON': self.syst_on(),
+        'OFF': self.syst_off()
     }
-    self.volt_long = {
-        'RAW': self.volt_raw(),
-        'NORM': self.volt_norm()
+    self.syst_long = {
+        'ERROR': self.syst_error(),
+        'VERSION?': self.syst_version(),
+        'ADDRESS': self.syst_addr(),  # sets DAC address
+        'ADDRESS?': self.syst_what_addr(),  # what DAC address we have?
+        'BOARD': self.syst_board(),  # DIRECTLY SETS BOARD NUMBER
+        'BOARD?': self.syst_what_board(),  # What is the board number
+        'DAC': self.syst_dac(),  # Directly sets dac number on the board
+        'DAC?': self.syst_what_dac(),  # What is the DAC number
+        'CONTROL': self.syst_control(),
+        'ON': self.syst_on(),
+        'OFF': self.syst_off()
     }
-    # CURRENT DICTIONARY
-    self.curr_dic_short = self.root_short
-    self.curr_dic_long = self.root_long
+    # !!STATUS @@@@@@@
+    self.stat_short = {
+        'OPER': self.stat_oper(),
+        'QUES': self.stat_questionable(),
+        'PRES': self.stat_preset()
+    }
+    self.stat_long = {
+        'OPERATION': self.stat_oper(),
+        'QUESTIONABLE': self.stat_questionable(),
+        'PRESET': self.stat_preset()
+    }
+    # !!ROOT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    self.root_short = {
+        "SYST": self.root_sys(),
+        "STAT": self.root_stat()
+    }
+    self.root_long = {
+        "SYSTEM": self.root_sys(),
+        "STATUS": self.root_stat()
+    }
 
 
 # normal functions
