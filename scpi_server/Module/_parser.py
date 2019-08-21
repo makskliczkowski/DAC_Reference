@@ -125,15 +125,15 @@ def parse_dict(self):
 # @staticmethod
 @register_method
 def root_sys(self):
-    self.curr_dic_short = copy.deepcopy(self.syst_short)
-    self.curr_dic_long = copy.deepcopy(self.syst_long)
+    self.curr_dic_short = self.syst_short
+    self.curr_dic_long = self.syst_long
 
 
 # @staticmethod
 @register_method
 def root_stat(self):
-    self.curr_dic_short = copy.deepcopy(self.stat_short)
-    self.curr_dic_long = copy.deepcopy(self.stat_long)
+    self.curr_dic_short = self.stat_short
+    self.curr_dic_long = self.stat_long
 
 
 # !!!!!!!!!!!!!!!!!!!!!!! ROOT LEVEL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -240,8 +240,8 @@ def syst_what_dac(self):
 # @staticmethod
 @register_method
 def syst_control(self):
-    self.curr_dic_short = copy.deepcopy(self.control_short)
-    self.curr_dic_long = copy.deepcopy(self.control_long)
+    self.curr_dic_short = self.control_short
+    self.curr_dic_long = self.control_long
 
 
 @register_method
@@ -275,8 +275,8 @@ def stat_preset(self):
 # @staticmethod
 @register_method
 def contr_volt(self):
-    self.curr_dic_short = copy.deepcopy(self.volt_short)
-    self.curr_dic_long = copy.deepcopy(self.volt_long)
+    self.curr_dic_short = self.volt_short
+    self.curr_dic_long = self.volt_long
 
 
 @register_method
@@ -289,7 +289,9 @@ def conrt_ldac_button(self):
 
 @register_method
 def contr_res_button(self):
-    temp = bool(self.request_val)
+    temp_str = ''
+    temp_str = temp_str.join(self.request_val)
+    temp = bool(temp_str)
     self.dac.reset = temp
     GPIO.output("P8_18", self.dac.reset)
     GPIO.output("P8_18", 0)  # returns it back to 0
@@ -306,7 +308,9 @@ def contr_what_clock(self):
 
 @register_method
 def contr_clock(self):
-    clock = int(self.request_val)
+    temp_str = ''
+    temp_str = temp_str.join(self.request_val)
+    clock = int(temp_str)
     if self.dac.MIN_CLOCK <= clock <= self.dac.MAX_CLOCK:
         self.dac.spi.msh(clock)
         self.response += "CLOCK is now set to: [" + str(self.dac.clock) + "]\n"
@@ -360,7 +364,9 @@ def quest_is_enabled(self):
 # voltage
 @register_method
 def volt_raw(self):
-    raw = int(self.request_val)
+    temp_str = ''
+    temp_str = temp_str.join(self.request_val)
+    raw = int(temp_str)
     if self.dac.MAX_POS >= raw >= self.dac.MAX_NEG:
         self.dac.act_val = raw
         self.response += "Actual value is: " + str(self.dac.act_val) + "\n"
@@ -372,7 +378,7 @@ def volt_raw(self):
 
 @register_method
 def volt_norm(self):
-    norm = int(self.request_val)
+    norm = int(self.request_val[0])
     if 0 < norm <= 1:
         self.dac.act_val = int(self.dac.MAX_POS * norm)
         self.response += "Actual value is: " + str(self.dac.act_val) + "\n"

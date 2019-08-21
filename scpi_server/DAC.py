@@ -53,7 +53,6 @@ class DAC:
     def __del__(self):
         self.reset_dac()  # reset voltage
         self.spi.close()  # spi close
-        self.s.close()  # server close
 
     def initializeDAC(self):  # we can always change the initialize and make it more flexible
         GPIO.output("P8_17", GPIO.HIGH)
