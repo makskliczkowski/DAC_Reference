@@ -29,31 +29,30 @@ def service_connection(key, mask, sel):
         print("Now I may send some")
         msg = input("Please send message to the DAC or press enter: ")
         if msg != 0:
-            sent = temp_sock.send(bytes(msg + terminator))
-            print("Sent: ", sent.decode("ascii"))
+            print("Sending: ", msg)
+            sent = temp_sock.send((msg + terminator).encode("ascii"))
+            
 
 
-def start_connections(IP, PORT, sel):
-    connid = 0
-    while True:
-        connid += 1
+def start_connection(IP, PORT, sel, connid):
         server_addr = (IP, PORT)
         print('starting connection ', connid, 'to', server_addr)
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.setblocking(False)
         s.connect_ex((IP, PORT))
         events = selectors.EVENT_READ | selectors.EVENT_WRITE
-        message = input("Please tell the message")
         data = connid
         sel.register(s, events, data=data)
 
-
-start_connections(IP, PORT, sel)
+connid = 0
 try:
     while True:
+        start_connection(IP, PORT, sel, connid)
+        connid += 1
         events = sel.select(timeout=1)
         if events:
             for key, mask in events:
+                print("halo")
                 service_connection(key, mask, sel)
             # Check for a socket being monitored to continue.
         if not sel.get_map():
