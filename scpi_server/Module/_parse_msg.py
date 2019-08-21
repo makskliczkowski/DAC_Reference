@@ -1,3 +1,12 @@
+# Functions that will parse information, contain current path, include message to be sent back, request will
+# be proceeded after receiving value that user wants from us. The message will be provided in ASCI format.
+import Lib
+
+__methods__ = []
+register_method = Lib.register_method(__methods__)
+
+
+@register_method
 def msg_parse_info(self):
     # to allow memory of current path we will save a string path and every time when we go to other path we
     # wil change the dictionary with inner functions from common or parser, thanks to that we don't need to
@@ -18,6 +27,7 @@ def msg_parse_info(self):
     self.query = '?'
 
 
+@register_method
 def clear_path(self):
     self.current_branch = ""
     self.message = ""
@@ -25,6 +35,7 @@ def clear_path(self):
     self.curr_dic_long = self.root_long
 
 
+@register_method
 def find_path(self, path_temp):
     # we now check for instance of the path in the dictionary
     err_short = self.curr_dic_short(str(path_temp).upper())
@@ -37,6 +48,7 @@ def find_path(self, path_temp):
     return error
 
 
+@register_method
 def find_in_common(self, path_temp):
     error = self.common(str(path_temp).upper())
     if not error:
@@ -46,6 +58,7 @@ def find_in_common(self, path_temp):
 
 
 # we define request sending function as it may be finishing command
+@register_method
 def request_sending(self, path_temp):
     self.request_val = path_temp
     self.space_handle()
@@ -62,6 +75,7 @@ def request_sending(self, path_temp):
 #   -change the path
 #   -request handle
 #   -common request
+@register_method
 def msg_handle(self, msg):
     self.message = msg
     temp = list(self.message)
@@ -138,6 +152,7 @@ def msg_handle(self, msg):
             continue
 
 
+@register_method
 def space_handle(self):
     temp = list(self.request_val)
     for i in temp:
@@ -145,6 +160,3 @@ def space_handle(self):
             del temp[i]
     self.request_val = temp
     return
-
-# Functions that will parse information, contain current path, include message to be sent back, request will
-# be proceeded after receiving value that user wants from us. The message will be provided in ASCI format.

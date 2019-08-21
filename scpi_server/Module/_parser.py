@@ -1,9 +1,13 @@
 import copy
-
 import Adafruit_BBIO.GPIO as GPIO
 from Adafruit_BBIO.SPI import SPI
+import Lib
+
+__methods__ = []
+register_method = Lib.register_method(__methods__)
 
 
+@register_method
 def parse_dict(self):
     # !!ROOT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -115,12 +119,15 @@ def parse_dict(self):
 
 
 # root functions-----------------------------------------------------------
-@staticmethod
+# @staticmethod
+@register_method
 def root_sys(self):
     self.curr_dic_short = copy.deepcopy(self.syst_short)
     self.curr_dic_long = copy.deepcopy(self.syst_long)
 
-@staticmethod
+
+# @staticmethod
+@register_method
 def root_stat(self):
     self.curr_dic_short = copy.deepcopy(self.stat_short)
     self.curr_dic_long = copy.deepcopy(self.stat_long)
@@ -128,14 +135,17 @@ def root_stat(self):
 
 # !!!!!!!!!!!!!!!!!!!!!!! ROOT LEVEL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # system functions-----------------------------------------------------
+@register_method
 def syst_error(self):
     pass
 
 
+@register_method
 def syst_version(self):
     pass
 
 
+@register_method
 def syst_addr(self):  # function sets dac address - binary
     temp = list(self.request_val)
     try:
@@ -151,10 +161,12 @@ def syst_addr(self):  # function sets dac address - binary
         self.response += 'SOMETHING WENT WRONG, WRONG ADDRESS' + str(temp)
 
 
+@register_method
 def syst_what_addr(self):
     self.response += "The address is: [" + str(self.dac.dac_address) + "]\n"
 
 
+@register_method
 def syst_board(self):
     board = int(self.request_val)
     if board == 0:
@@ -185,11 +197,13 @@ def syst_board(self):
     self.response += "The board number is: [" + str(board) + "]\n"
 
 
+@register_method
 def syst_what_board(self):
     board = int(str(self.dac.dac_address[2:], '2'))
     self.response += "The board number is: [" + str(board) + "]\n"
 
 
+@register_method
 def syst_dac(self):
     board = int(self.request_val)
     if board == 0:
@@ -214,45 +228,55 @@ def syst_dac(self):
     self.response += "The DAC number is: [" + str(board) + "]\n"
 
 
+@register_method
 def syst_what_dac(self):
     board = int(str(self.dac.dac_address[0:1], '2'))
     self.response += "The DAC number is: [" + str(board) + "]\n"
 
-@staticmethod
+
+# @staticmethod
+@register_method
 def syst_control(self):
     self.curr_dic_short = copy.deepcopy(self.control_short)
     self.curr_dic_long = copy.deepcopy(self.control_long)
 
 
+@register_method
 def syst_on(self):
     self.dac.__init__()
 
 
+@register_method
 def syst_off(self):
     self.dac.__del__()
 
 
 # status functions--------------------------------------------
+@register_method
 def stat_oper(self):
     pass
 
 
+@register_method
 def stat_questionable(self):
     pass
 
 
+@register_method
 def stat_preset(self):
     pass
 
 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! SECOND LEVEL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # control functions
-@staticmethod
+# @staticmethod
+@register_method
 def contr_volt(self):
     self.curr_dic_short = copy.deepcopy(self.volt_short)
     self.curr_dic_long = copy.deepcopy(self.volt_long)
 
 
+@register_method
 def conrt_ldac_button(self):
     temp = bool(self.request_val)
     self.dac.ldac = temp
@@ -260,6 +284,7 @@ def conrt_ldac_button(self):
     self.response += "LDAC is set to: [" + str(temp) + "]\n"
 
 
+@register_method
 def contr_res_button(self):
     temp = bool(self.request_val)
     self.dac.reset = temp
@@ -271,10 +296,12 @@ def contr_res_button(self):
         self.response += "Reset incorrect\n"
 
 
+@register_method
 def contr_what_clock(self):
     self.response += "CLOCK is set to: [" + str(self.dac.clock) + "]\n"
 
 
+@register_method
 def contr_clock(self):
     clock = int(self.request_val)
     if self.dac.MIN_CLOCK <= clock <= self.dac.MAX_CLOCK:
@@ -285,10 +312,12 @@ def contr_clock(self):
 
 
 # operation functions -----------------------------------------------------
+@register_method
 def oper_event(self):
     pass
 
 
+@register_method
 def oper_condition(self):
     pass
 
@@ -297,29 +326,35 @@ def oper_enable(self):
     pass
 
 
+@register_method
 def oper_is_enabled(self):
     pass
 
 
 # questionable functions------------------------------------------
+@register_method
 def quest_event(self):
     pass
 
 
+@register_method
 def quest_condition(self):
     pass
 
 
+@register_method
 def quest_enable(self):
     pass
 
 
+@register_method
 def quest_is_enabled(self):
     pass
 
 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! THIRD LEVEL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # voltage
+@register_method
 def volt_raw(self):
     raw = int(self.request_val)
     if self.dac.MAX_POS >= raw >= self.dac.MAX_NEG:
@@ -331,6 +366,7 @@ def volt_raw(self):
     self.dac.registerValue()
 
 
+@register_method
 def volt_norm(self):
     norm = int(self.request_val)
     if 0 < norm <= 1:
@@ -345,5 +381,6 @@ def volt_norm(self):
     self.dac.registerValue()
 
 
+@register_method
 def __del__(self):
     self.dac.__del__()
