@@ -17,12 +17,12 @@ def service_connection(key, mask, sel):
     if mask & selectors.EVENT_READ:
         recv_data = temp_sock.recv(1024)  # Should be ready to read
         if recv_data:
-            print('from connection', temp_data.connid)
+            print('from connection', temp_data)
             print(" received message, decoding...\n")
             print(recv_data.decode("ascii") + '\n')
         else:
             print("No msg or finished\n")
-            print('closing connection', temp_data.connid)
+            print('closing connection', temp_data)
             sel.unregister(temp_sock)
             temp_sock.close()
     if mask & selectors.EVENT_WRITE:
@@ -44,10 +44,7 @@ def start_connections(IP, PORT, sel):
         s.connect_ex((IP, PORT))
         events = selectors.EVENT_READ | selectors.EVENT_WRITE
         message = input("Please tell the message")
-        data = types.SimpleNamespace(connid=connid,
-                                     message=message,
-                                     outb=b'',
-                                     inb=b'')
+        data = connid
         sel.register(s, events, data=data)
 
 

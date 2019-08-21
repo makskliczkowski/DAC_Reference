@@ -25,9 +25,12 @@ def server_handle(Message):
         connection, addr = socke.accept()  # Should be ready to read
         print('accepted connection from', addr)
         connection.setblocking(False)
-        dat = types.SimpleNamespace(addr=addr, inb=b'', outb=b'')
+        print('debug1')
+        dat = addr
+        print('debug2')
         event = selectors.EVENT_READ | selectors.EVENT_WRITE
         selector.register(connection, event, data=dat)
+        print('debug3')
 
     terminator = '\n'
 
