@@ -4,7 +4,6 @@
     <list default="true" id="358d00c1-0e22-4e28-abcc-692e0d774573" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/dictionaries/Max_Kliczkowski.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/Max_Kliczkowski.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scpi_server/DAC.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/DAC.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scpi_server/SCPI_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/SCPI_server.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scpi_server/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/client.py" afterDir="false" />
     </list>
@@ -176,7 +175,14 @@
       <option name="project" value="LOCAL" />
       <updated>1566316645755</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="changing whole server!">
+      <created>1566381328844</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1566381328844</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -218,6 +224,7 @@
     <MESSAGE value="Changed the whole inner structure of project. Now there is only one class" />
     <MESSAGE value="Merge branch 'master' of https://github.com/makskliczkowski/DAC_Reference&#10;&#10;# Conflicts:&#10;#&#9;scpi_server/DAC.pyc&#10;#&#9;scpi_server/SCPI_server.pyc" />
     <MESSAGE value="Added staticmethods" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added staticmethods" />
+    <MESSAGE value="changing whole server!" />
+    <option name="LAST_COMMIT_MESSAGE" value="changing whole server!" />
   </component>
 </project>
