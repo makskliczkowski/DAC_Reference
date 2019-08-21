@@ -1,5 +1,8 @@
-import socket
-import selectors
+try:
+    import socket
+    import selectors
+except:
+    import selectors34 as selectors
 import types
 
 IP = '192.168.0.20'

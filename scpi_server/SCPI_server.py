@@ -1,4 +1,7 @@
-import selectors
+try:
+    import selectors
+except:
+    import selectors34 as selectors
 import socket
 import types
 
@@ -38,7 +41,7 @@ def server_handle(Message):
     msg = ""
     try:
         while True:
-            events = sel.select(timeout=None)
+            events = sel.select(timeout=600)
             for key, mask in events:
                 if key.data is None:
                     accept_wrapper(key.fileobj, sel)
