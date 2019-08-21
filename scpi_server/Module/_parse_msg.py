@@ -78,7 +78,8 @@ def request_sending(self, path_temp):
 @register_method
 def msg_handle(self, msg):
     self.message = msg
-    temp = list(self.message)
+    temp = list(str(self.message))
+    self.message = ""
     if temp[0] == self.path_separator and self.current_branch == "":
         del temp[0]
         # we are at the root branch

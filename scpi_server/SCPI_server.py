@@ -52,6 +52,7 @@ def server_handle(Message):
                         # we take the received data and send it to Message to execute it
                         print("Waiting for data to receive")
                         recv_data = temp_sock.recv(1024)  # Should be ready to read
+                        print(recv_data.decode("ascii"))
                         if recv_data:
                             Message.take_msg(recv_data)
                         else:
@@ -63,6 +64,7 @@ def server_handle(Message):
                         if not next_message:
                             continue
                         else:
+                            print("sending: ", next_message)
                             temp_sock.send(bytes(next_message + terminator))
 
     except KeyboardInterrupt:

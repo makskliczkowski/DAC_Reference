@@ -20,7 +20,9 @@ class Message(object):
 
     def take_msg(self, data):
         self.message = data.decode("ascii")
-
+        print(self.message) 
+        print("this is the message")
+        self.msg_handle(self.message)
     def send_response(self):
         return self.response
 
