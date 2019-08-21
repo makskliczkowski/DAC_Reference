@@ -1,8 +1,8 @@
 from DAC import DAC
 import Lib
-from ._common import *
-from ._parse_msg import *
-from ._parser import *
+import _common
+import _parse_msg
+import _parser
 
 
 @Lib.add_methods_from(_common, _parser, _parse_msg)
