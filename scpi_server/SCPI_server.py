@@ -23,7 +23,7 @@ def server_handle(Message):
 
     def accept_wrapper(socke, selector):
         connection, addr = socke.accept()  # Should be ready to read
-        print('accepted connection from', addr)
+        print('Accepted connection from', addr)
         connection.setblocking(False)
         dat = addr
         event = selectors.EVENT_READ | selectors.EVENT_WRITE
@@ -50,9 +50,8 @@ def server_handle(Message):
                     temp_data = key.data
                     if mask & selectors.EVENT_READ:
                         # we take the received data and send it to Message to execute it
-                        print("Waiting for data to receive")
                         recv_data = temp_sock.recv(1024)  # Should be ready to read
-                        print(recv_data.decode("ascii"))
+                        print('Received: ', recv_data.decode("ascii"))
                         if recv_data:
                             Message.take_msg(recv_data)
                         else:
@@ -64,9 +63,10 @@ def server_handle(Message):
                         if not next_message:
                             continue
                         else:
-                            print("sending: ", next_message)
                             temp_sock.send(bytes(next_message + terminator))
 
     except KeyboardInterrupt:
         print("caught keyboard interrupt, exiting")
         Message.__del__()
+    finally:
+        sel.close()

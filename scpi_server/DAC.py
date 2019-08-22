@@ -15,8 +15,8 @@ class DAC:
         self.DAC_SEND = "0001"  # value to be sending information to dac
         self.MAX_NEG = -pow(2, 19)  # max neg value that can be achieved
         self.MAX_POS = int(0b01111111111111111111)  # max pos value that can be achieved
-        self.MAX_CLOCK = 35000000  # maximal clock value we can get in Hz
-        self.MIN_CLOCK = 100000  # minimal clock value we can get in Hz
+        self.MAX_CLOCK = 34000000  # maximal clock value we can get in Hz
+        self.MIN_CLOCK = 500000  # minimal clock value we can get in Hz
         self.IP = '192.168.0.20'
         self.PORT = 5555
 
@@ -24,6 +24,7 @@ class DAC:
         self.clock = self.MIN_CLOCK  # begin with min value
 
         self.spi = SPI(1, 0)  # spi for our communication
+        self.spi.mode = 0b00
         self.spi.msh = self.clock
 
         # Triggers for the DAC
@@ -53,6 +54,7 @@ class DAC:
     @staticmethod
     def reset_dac():
         GPIO.output("P8_18", 1)
+        print('Reseting DAC')
         GPIO.output("P8_18", 0)  # returns it back to 0
 
     def __del__(self):
@@ -71,9 +73,8 @@ class DAC:
             string2 = temp[4:12]
             string3 = temp[12:]
             GPIO.output("P8_17", GPIO.HIGH)
-            print("debug5")
             self.spi.writebytes([int(string1, 2), int(string2, 2), int(string3, 2)])
-            print(string1 + string2 + string3)
+            print('Sending to the DAC: ', string1 + string2 + string3)
             GPIO.output("P8_17", GPIO.LOW)
         else:
             self.reset_dac()
