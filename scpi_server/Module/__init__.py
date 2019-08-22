@@ -23,8 +23,11 @@ class Message(object):
         print(self.message) 
         print("this is the message")
         self.msg_handle(self.message)
+        self.message = ""
     def send_response(self):
-        return self.response
+        x = self.response
+        self.response = ""
+        return x
 
     def __del__(self):
         self.dac.__del__()

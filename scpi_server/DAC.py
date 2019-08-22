@@ -16,7 +16,7 @@ class DAC:
         self.MAX_NEG = -pow(2, 19)  # max neg value that can be achieved
         self.MAX_POS = int(0b01111111111111111111)  # max pos value that can be achieved
         self.MAX_CLOCK = 35000000  # maximal clock value we can get in Hz
-        self.MIN_CLOCK = 10000  # minimal clock value we can get in Hz
+        self.MIN_CLOCK = 100000  # minimal clock value we can get in Hz
         self.IP = '192.168.0.20'
         self.PORT = 5555
 
@@ -28,7 +28,7 @@ class DAC:
 
         # Triggers for the DAC
         self.reset = False
-        self.ldac = False
+        self.ldac = True
         GPIO.setup("P8_17", GPIO.OUT)  # LDAC
         GPIO.setup("P8_18", GPIO.OUT)  # RESET
         GPIO.output("P8_18", self.reset)
@@ -71,6 +71,7 @@ class DAC:
             string2 = temp[4:12]
             string3 = temp[12:]
             GPIO.output("P8_17", GPIO.HIGH)
+            print("debug5")
             self.spi.writebytes([int(string1, 2), int(string2, 2), int(string3, 2)])
             GPIO.output("P8_17", GPIO.LOW)
         else:

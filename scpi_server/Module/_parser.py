@@ -151,18 +151,20 @@ def syst_version(self):
 @register_method
 def syst_addr(self):  # function sets dac address - binary
     temp = list(str(self.request_value))
-    check0 = bool(int(self.dac.dacAddress[0]) == 0 or int(self.dac.dacAddress[0]) == 1)
-    check1 = bool(int(self.dac.dacAddress[1]) == 0 or int(self.dac.dacAddress[1]) == 1)
-    check2 = bool(int(self.dac.dacAddress[2]) == 0 or int(self.dac.dacAddress[2]) == 1)
-    check3 = bool(int(self.dac.dacAddress[3]) == 0 or int(self.dac.dacAddress[3]) == 1)
-    check4 = bool(int(self.dac.dacAddress[4]) == 0 or int(self.dac.dacAddress[4]) == 1)
+    print("debug1")
+    check0 = bool(int(temp[0]) == 0 or int(temp[0]) == 1)
+    check1 = bool(int(temp[1]) == 0 or int(temp[1]) == 1)
+    check2 = bool(int(temp[2]) == 0 or int(temp[2]) == 1)
+    check3 = bool(int(temp[3]) == 0 or int(temp[3]) == 1)
+    check4 = bool(int(temp[4]) == 0 or int(temp[4]) == 1)
     if check0 and check1 and check2 and check3 and check4:
         self.dac.dac_address = temp
-        GPIO.setup("P9_15", int(self.dac.dacAddress[0]))  # P0
-        GPIO.setup("P9_11", int(self.dac.dacAddress[1]))  # P1
-        GPIO.setup("P9_12", int(self.dac.dacAddress[2]))  # P2
-        GPIO.setup("P9_13", int(self.dac.dacAddress[3]))  # P3
-        GPIO.setup("P9_14", int(self.dac.dacAddress[4]))  # P4
+        print("debug2", self.dac.dacAddress)
+        GPIO.setup("P9_15", int(self.dac.dac_address[0]))  # P0
+        GPIO.setup("P9_11", int(self.dac.dac_address[1]))  # P1
+        GPIO.setup("P9_12", int(self.dac.dac_address[2]))  # P2
+        GPIO.setup("P9_13", int(self.dac.dac_address[3]))  # P3
+        GPIO.setup("P9_14", int(self.dac.dac_address[4]))  # P4
         temp_str = ''
         temp_str = temp_str.join(self.dac.dac_address)
         self.response += "The address is: [" + temp_str + "]\n"
@@ -172,8 +174,10 @@ def syst_addr(self):  # function sets dac address - binary
 
 @register_method
 def syst_what_addr(self):
-
-    self.response += "The address is: [" + str(self.dac.dac_address) + "]\n"
+    print("debug3")
+    temp_str = ""
+    temp_str = temp_str.join(self.dac_dac_address)
+    self.response += "The address is: [" + temp_str + "]\n"
 
 
 @register_method
@@ -386,10 +390,10 @@ def volt_raw(self):
     raw = int(temp_str)
     if self.dac.MAX_POS >= raw >= self.dac.MAX_NEG:
         self.dac.act_val = raw
-        self.response += "Actual value is: " + str(self.dac.act_val) + "\n"
+        self.response += "Actual value is: " + str(self.dac.act_val)
     else:
         self.dac.act_val = 0  # if we go out of range we get 0
-        self.response += "Out of range[-1,1] or 0. Actual value is: " + str(self.dac.act_val) + "\n"
+        self.response += "Out of range[-1,1] or 0. Actual value is: " + str(self.dac.act_val)
     self.dac.registerValue()
 
 
@@ -398,13 +402,13 @@ def volt_norm(self):
     norm = int(self.request_val[0])
     if 0 < norm <= 1:
         self.dac.act_val = int(self.dac.MAX_POS * norm)
-        self.response += "Actual value is: " + str(self.dac.act_val) + "\n"
+        self.response += "Actual value is: " + str(self.dac.act_val)
     elif 0 > norm >= -1:
         self.dac.act_val = int(-self.dac.MAX_NEG * norm)
-        self.response += "Actual value is: " + str(self.dac.act_val) + "\n"
+        self.response += "Actual value is: " + str(self.dac.act_val)
     else:
         self.dac.act_val = 0
-        self.response += "Out of range[-1,1] or 0. Actual value is: " + str(self.dac.act_val) + "\n"
+        self.response += "Out of range[-1,1] or 0. Actual value is: " + str(self.dac.act_val)
     self.dac.registerValue()
 
 

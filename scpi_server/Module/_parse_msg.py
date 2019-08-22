@@ -45,7 +45,7 @@ def find_path(self, path_temp):
     if err_short is not None:
         err_short()
     err_long = self.curr_dic_long.get(path)
-    if err_long is not None:
+    if err_long is not None and err_short is None:
         err_long()
     # ADD ERRRRORRORORORORR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     error = err_long == -1 and err_short == -1
@@ -162,6 +162,12 @@ def msg_handle(self, msg):
             self.request = path_temp
             self.expect_request = True # we are waiting for request value before getting it done
             path_temp = []
+            continue
+        if temp[i] == "?":
+            path_temp.append(" ")
+            self.request = path_temp
+            self.expect_request = True
+            path_temp=[]
             continue
 
 
