@@ -150,28 +150,37 @@ def syst_version(self):
 
 @register_method
 def syst_addr(self):  # function sets dac address - binary
-    temp = list(self.request_val)
-    try:
+    temp = list(str(self.request_value))
+    check0 = bool(int(self.dac.dacAddress[0]) == 0 or int(self.dac.dacAddress[0]) == 1)
+    check1 = bool(int(self.dac.dacAddress[1]) == 0 or int(self.dac.dacAddress[1]) == 1)
+    check2 = bool(int(self.dac.dacAddress[2]) == 0 or int(self.dac.dacAddress[2]) == 1)
+    check3 = bool(int(self.dac.dacAddress[3]) == 0 or int(self.dac.dacAddress[3]) == 1)
+    check4 = bool(int(self.dac.dacAddress[4]) == 0 or int(self.dac.dacAddress[4]) == 1)
+    if check0 and check1 and check2 and check3 and check4:
         self.dac.dac_address = temp
-        GPIO.setup("P9_15", self.dac.dacAddress[0])  # P0
-        GPIO.setup("P9_11", self.dac.dacAddress[1])  # P1
-        GPIO.setup("P9_12", self.dac.dacAddress[2])  # P2
-        GPIO.setup("P9_13", self.dac.dacAddress[3])  # P3
-        GPIO.setup("P9_14", self.dac.dacAddress[4])  # P4
-        self.response += "The address is: [" + str(self.dac.dac_address) + "]\n"
-
-    except:
-        self.response += 'SOMETHING WENT WRONG, WRONG ADDRESS' + str(temp)
+        GPIO.setup("P9_15", int(self.dac.dacAddress[0]))  # P0
+        GPIO.setup("P9_11", int(self.dac.dacAddress[1]))  # P1
+        GPIO.setup("P9_12", int(self.dac.dacAddress[2]))  # P2
+        GPIO.setup("P9_13", int(self.dac.dacAddress[3]))  # P3
+        GPIO.setup("P9_14", int(self.dac.dacAddress[4]))  # P4
+        temp_str = ''
+        temp_str = temp_str.join(self.dac.dac_address)
+        self.response += "The address is: [" + temp_str + "]\n"
+    else:
+        self.response += 'SOMETHING WENT WRONG, WRONG ADDRESS' + str(self.request_value)
 
 
 @register_method
 def syst_what_addr(self):
+
     self.response += "The address is: [" + str(self.dac.dac_address) + "]\n"
 
 
 @register_method
 def syst_board(self):
-    board = int(self.request_val)
+    temp_str = ''
+    temp_str = temp_str.join(self.request_val)
+    board = int(temp_str)
     if board == 0:
         self.dac.dac_address[2] = 0
         self.dac.dac_address[3] = 0
@@ -194,21 +203,25 @@ def syst_board(self):
         self.dac.dac_address[3] = 0
         self.dac.dac_address[4] = 0
 
-    GPIO.output("P9_12", self.dac.dac_address[2])
-    GPIO.output("P9_13", self.dac.dac_address[3])
-    GPIO.output("P9_14", self.dac.dac_address[4])
+    GPIO.output("P9_12", int(self.dac.dac_address[2]))
+    GPIO.output("P9_13", int(self.dac.dac_address[3]))
+    GPIO.output("P9_14", int(self.dac.dac_address[4]))
     self.response += "The board number is: [" + str(board) + "]\n"
 
 
 @register_method
 def syst_what_board(self):
-    board = int(str(self.dac.dac_address[2:], '2'))
+    temp_str = ''
+    temp_str = temp_str.join(self.dac.dac_address[2:])
+    board = int(temp_str, 2)
     self.response += "The board number is: [" + str(board) + "]\n"
 
 
 @register_method
 def syst_dac(self):
-    board = int(self.request_val)
+    temp_str = ''
+    temp_str = temp_str.join(self.request_val)
+    board = int(temp_str)
     if board == 0:
         self.dac.dac_address[0] = 0
         self.dac.dac_address[1] = 0
@@ -226,14 +239,16 @@ def syst_dac(self):
         self.dac.dac_address[0] = 0
         self.dac.dac_address[1] = 0
 
-    GPIO.output("P9_15", self.dac.dac_address[0])
-    GPIO.output("P9_11", self.dac.dac_address[1])
+    GPIO.output("P9_15", int(self.dac.dac_address[0]))
+    GPIO.output("P9_11", int(self.dac.dac_address[1]))
     self.response += "The DAC number is: [" + str(board) + "]\n"
 
 
 @register_method
 def syst_what_dac(self):
-    board = int(str(self.dac.dac_address[0:1], '2'))
+    temp_str = ''
+    temp_str = temp_str.join(self.dac.dac_address[0:1])
+    board = int(temp_str, 2)
     self.response += "The DAC number is: [" + str(board) + "]\n"
 
 
@@ -281,7 +296,9 @@ def contr_volt(self):
 
 @register_method
 def conrt_ldac_button(self):
-    temp = bool(self.request_val)
+    temp_str = ''
+    temp_str = temp_str.join(self.request_val)
+    temp = bool(temp_str)
     self.dac.ldac = temp
     GPIO.output("P8_17", self.dac.ldac)
     self.response += "LDAC is set to: [" + str(temp) + "]\n"

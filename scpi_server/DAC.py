@@ -42,7 +42,12 @@ class DAC:
         GPIO.setup("P9_12", GPIO.OUT)  # P2
         GPIO.setup("P9_13", GPIO.OUT)  # P3
         GPIO.setup("P9_14", GPIO.OUT)  # P4
-
+        GPIO.output("P9_15", GPIO.LOW)  # P0
+        GPIO.output("P9_11", GPIO.LOW)  # P1
+        GPIO.output("P9_12", GPIO.LOW)  # P2
+        GPIO.output("P9_13", GPIO.LOW)  # P3
+        GPIO.output("P9_14", GPIO.LOW)  # P4
+        self.initializeDAC()
         # server
 
     @staticmethod
@@ -60,8 +65,6 @@ class DAC:
         GPIO.output("P8_17", GPIO.LOW)
 
     def registerValue(self):
-
-        self.initializeDAC()
         if self.act_val != 0:
             temp = self.convertComplement_DAC(self.act_val, 20)
             string1 = self.DAC_SEND + temp[0:4]

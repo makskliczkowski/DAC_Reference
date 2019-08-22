@@ -13,7 +13,7 @@ def msg_parse_info(self):
     # worry about getting in other dictionaries!
     self.current_branch = ""
     self.request = ""  # current request
-    self.request_val = "0"  # current request value
+    self.request_val = None  # current request value
     self.expect_request = False  # we will make functions in dictionary expect request
 
     self.terminator = '\n'
