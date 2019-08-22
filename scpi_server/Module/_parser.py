@@ -150,7 +150,7 @@ def syst_version(self):
 
 @register_method
 def syst_addr(self):  # function sets dac address - binary
-    temp = list(str(self.request_value))
+    temp = self.request_val
     print("debug1")
     check0 = bool(int(temp[0]) == 0 or int(temp[0]) == 1)
     check1 = bool(int(temp[1]) == 0 or int(temp[1]) == 1)
@@ -165,6 +165,7 @@ def syst_addr(self):  # function sets dac address - binary
         GPIO.setup("P9_12", int(self.dac.dac_address[2]))  # P2
         GPIO.setup("P9_13", int(self.dac.dac_address[3]))  # P3
         GPIO.setup("P9_14", int(self.dac.dac_address[4]))  # P4
+        self.dac.dac_address = temp
         temp_str = ''
         temp_str = temp_str.join(self.dac.dac_address)
         self.response += "The address is: [" + temp_str + "]\n"
@@ -174,10 +175,7 @@ def syst_addr(self):  # function sets dac address - binary
 
 @register_method
 def syst_what_addr(self):
-    print("debug3")
-    temp_str = ""
-    temp_str = temp_str.join(self.dac_dac_address)
-    self.response += "The address is: [" + temp_str + "]\n"
+    self.response += "The address is: " + str(self.dac.dac_address)
 
 
 @register_method
@@ -210,15 +208,17 @@ def syst_board(self):
     GPIO.output("P9_12", int(self.dac.dac_address[2]))
     GPIO.output("P9_13", int(self.dac.dac_address[3]))
     GPIO.output("P9_14", int(self.dac.dac_address[4]))
-    self.response += "The board number is: [" + str(board) + "]\n"
+    self.response += "The board number is: [" + str(board) + "]"
 
 
 @register_method
 def syst_what_board(self):
+    temp_list = self.dac.dac_address[2:]
     temp_str = ''
-    temp_str = temp_str.join(self.dac.dac_address[2:])
+    for i in temp_list:
+        temp_str = temp_str + str(i)
     board = int(temp_str, 2)
-    self.response += "The board number is: [" + str(board) + "]\n"
+    self.response += "The board number is: [" + str(board) + "]"
 
 
 @register_method
@@ -245,15 +245,17 @@ def syst_dac(self):
 
     GPIO.output("P9_15", int(self.dac.dac_address[0]))
     GPIO.output("P9_11", int(self.dac.dac_address[1]))
-    self.response += "The DAC number is: [" + str(board) + "]\n"
+    self.response += "The DAC number is: [" + str(board) + "]"
 
 
 @register_method
 def syst_what_dac(self):
+    temp_list = self.dac.dac_address[0:2]
     temp_str = ''
-    temp_str = temp_str.join(self.dac.dac_address[0:1])
+    for i in temp_list:
+        temp_str = temp_str + str(i)
     board = int(temp_str, 2)
-    self.response += "The DAC number is: [" + str(board) + "]\n"
+    self.response += "The DAC number is: [" + str(board) + "]"
 
 
 # @staticmethod
@@ -305,7 +307,7 @@ def conrt_ldac_button(self):
     temp = bool(temp_str)
     self.dac.ldac = temp
     GPIO.output("P8_17", self.dac.ldac)
-    self.response += "LDAC is set to: [" + str(temp) + "]\n"
+    self.response += "LDAC is set to: [" + str(temp) + "]"
 
 
 @register_method
@@ -317,14 +319,14 @@ def contr_res_button(self):
     GPIO.output("P8_18", self.dac.reset)
     GPIO.output("P8_18", 0)  # returns it back to 0
     if temp == 1:
-        self.response += "Reset correct\n"
+        self.response += "Reset correct"
     else:
-        self.response += "Reset incorrect\n"
+        self.response += "Reset incorrect"
 
 
 @register_method
 def contr_what_clock(self):
-    self.response += "CLOCK is set to: [" + str(self.dac.clock) + "]\n"
+    self.response += "CLOCK is set to: [" + str(self.dac.clock) + "]"
 
 
 @register_method
@@ -334,9 +336,10 @@ def contr_clock(self):
     clock = int(temp_str)
     if self.dac.MIN_CLOCK <= clock <= self.dac.MAX_CLOCK:
         self.dac.spi.msh(clock)
-        self.response += "CLOCK is now set to: [" + str(self.dac.clock) + "]\n"
+        self.dac.clock = clock
+        self.response += "CLOCK is now set to: [" + str(self.dac.clock) + "]"
     else:
-        self.response += "Something's wrong. CLOCK is set to: [" + str(self.dac.clock) + "]\n"
+        self.response += "Something's wrong. CLOCK is set to: [" + str(self.dac.clock) + "}"
 
 
 # operation functions -----------------------------------------------------

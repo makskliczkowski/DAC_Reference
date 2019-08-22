@@ -50,8 +50,7 @@ def reg_status_clean(self):
 def device_id(self):
     self.response = "The device is created for the request of precise voltage controlling using " \
                     "boards with DAC chips. Implementation project for MPQ by Maksymilian " \
-                    "Kliczkowski\n "
-
+                    "Kliczkowski"
 
 @register_method
 def status(self):
@@ -71,7 +70,7 @@ def is_op_complete(self):
 @register_method
 def reset_tree(self):
     self.clear_path()
-
+    self.response = 'Cleared path!'
 
 @register_method
 def serv_enable(self):

@@ -12,8 +12,8 @@ def msg_parse_info(self):
     # wil change the dictionary with inner functions from common or parser, thanks to that we don't need to
     # worry about getting in other dictionaries!
     self.current_branch = ""
-    self.request = ""  # current request
-    self.request_val = None  # current request value
+    self.request = list()  # current request
+    self.request_val = list()  # current request value
     self.expect_request = False  # we will make functions in dictionary expect request
 
     self.terminator = '\n'
@@ -30,9 +30,11 @@ def msg_parse_info(self):
 @register_method
 def clear_path(self):
     self.current_branch = ""
-    self.message = ""
+    self.request = list()  # current request
+    self.request_val = list()  # current request value
     self.curr_dic_short = self.root_short
     self.curr_dic_long = self.root_long
+    self.expect_request = False
 
 
 @register_method
@@ -48,7 +50,7 @@ def find_path(self, path_temp):
     if err_long is not None and err_short is None:
         err_long()
     # ADD ERRRRORRORORORORR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    error = err_long == -1 and err_short == -1
+    error = bool(err_long is None and err_short is None)
     if error:
         self.response = "Wrong path, problem with: (No such directory) - " + str(path_temp) + "Try again\n"
         self.message = ""
@@ -60,6 +62,9 @@ def find_in_common(self, path_temp):
     path = ''
     path = path.join(path_temp).upper()
     error = self.common.get(path)
+    self.request = list()  # current request
+    self.request_val = list()  # current request value
+    self.expect_request = False
     if error is None:
         self.response = "Wrong path, problem with: (No such directory) - " + str(path_temp) + "Try again\n"
         self.message = ""
@@ -73,11 +78,11 @@ def find_in_common(self, path_temp):
 def request_sending(self, path_temp):
     self.request_val = path_temp
     path_temp.pop()
+    self.space_handle()
     error = self.find_path(self.request)  # now we can execute function from request
-    self.request_val = ""
-    self.request = ""
+    self.clear_path()
     if error:
-        self.response = "Wrong path, problem with: (No such directory) - " + str(path_temp) + "Try again\n"
+        self.response = "Wrong path, problem with: (No such directory) - " + str(path_temp) + "Try again"
         self.message = ""
     return error
 
@@ -116,7 +121,11 @@ def msg_handle(self, msg):
                 if error == -1:
                     return -1
             else:
-                error = self.find_in_common(path_temp)
+                if path_temp != '':
+                    path_temp.pop()
+                    error = self.find_in_common(path_temp)  # if we have non asking common method
+                else:  # for asking common method
+                    error = self.find_in_common(self.request)
                 if error == -1:
                     return -1
             error = 0
@@ -130,7 +139,11 @@ def msg_handle(self, msg):
                 if error == -1:
                     return -1
             else:
-                error = self.find_in_common(path_temp)
+                if path_temp != '':  # if we have non asking common method
+                    path_temp.pop()
+                    error = self.find_in_common(path_temp)
+                else:  # for asking common method
+                    error = self.find_in_common(self.request)
                 if error == -1:
                     return -1
             path_temp = []
@@ -160,14 +173,16 @@ def msg_handle(self, msg):
             # whitespace after command makes expecting response
             path_temp.pop()
             self.request = path_temp
-            self.expect_request = True # we are waiting for request value before getting it done
+            self.expect_request = True  # we are waiting for request value before getting it done
             path_temp = []
             continue
         if temp[i] == "?":
-            path_temp.append(" ")
             self.request = path_temp
-            self.expect_request = True
-            path_temp=[]
+            if path_temp[0] != '*':
+                self.expect_request = True
+            else:
+                self.expect_request = False
+            path_temp = []
             continue
 
 

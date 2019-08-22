@@ -73,6 +73,7 @@ class DAC:
             GPIO.output("P8_17", GPIO.HIGH)
             print("debug5")
             self.spi.writebytes([int(string1, 2), int(string2, 2), int(string3, 2)])
+            print(string1 + string2 + string3)
             GPIO.output("P8_17", GPIO.LOW)
         else:
             self.reset_dac()
