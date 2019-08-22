@@ -25,7 +25,8 @@ class Message(object):
         self.message = ""
 
     def send_response(self):
-        print('Sending response: ', self.response)
+        if self.response != '':
+            print('Sending response: ', self.response)
         x = self.response
         self.response = ''
         return x

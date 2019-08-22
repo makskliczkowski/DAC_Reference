@@ -159,12 +159,26 @@ def syst_addr(self):  # function sets dac address - binary
     check4 = bool(int(temp[4]) == 0 or int(temp[4]) == 1)
     if check0 and check1 and check2 and check3 and check4:
         self.dac.dac_address = temp
-        print("debug2", self.dac.dacAddress)
-        GPIO.setup("P9_15", int(self.dac.dac_address[0]))  # P0
-        GPIO.setup("P9_11", int(self.dac.dac_address[1]))  # P1
-        GPIO.setup("P9_12", int(self.dac.dac_address[2]))  # P2
-        GPIO.setup("P9_13", int(self.dac.dac_address[3]))  # P3
-        GPIO.setup("P9_14", int(self.dac.dac_address[4]))  # P4
+        if int(self.dac.dac_address[0]) == 0:
+            GPIO.setup("P9_15", GPIO.LOW)  # P0
+        else:
+            GPIO.setup("P9_15", GPIO.HIGH)  # P0
+        if int(self.dac.dac_address[1]) == 0:
+            GPIO.setup("P9_11", GPIO.LOW)  # P1
+        else:
+            GPIO.setup("P9_11", GPIO.HIGH)  # P1
+        if int(self.dac.dac_address[2]) == 0:
+            GPIO.setup("P9_12", GPIO.LOW)  # P2
+        else:
+            GPIO.setup("P9_12", GPIO.HIGH)  # P2
+        if int(self.dac.dac_address[3]) == 0:
+            GPIO.setup("P9_13", GPIO.LOW)  # P3
+        else:
+            GPIO.setup("P9_13", GPIO.HIGH)  # P3
+        if int(self.dac.dac_address[4]) == 0:
+            GPIO.setup("P9_14", GPIO.LOW)  # P4
+        else:
+            GPIO.setup("P9_14", GPIO.HIGH)  # P4
         self.dac.dac_address = temp
         temp_str = ''
         temp_str = temp_str.join(self.dac.dac_address)
@@ -402,7 +416,9 @@ def volt_raw(self):
 
 @register_method
 def volt_norm(self):
-    norm = int(self.request_val[0])
+    temp_str = ''
+    temp_str = temp_str.join(self.request_val)
+    norm = float(temp_str)
     if 0 < norm <= 1:
         self.dac.act_val = int(self.dac.MAX_POS * norm)
         self.response += "Actual value is: " + str(self.dac.act_val)
