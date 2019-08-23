@@ -15,7 +15,7 @@ def service_connection(key, mask, sel):
     temp_sock = key.fileobj
     temp_data = key.data
     if mask & selectors.EVENT_WRITE:
-        msg = input('Please send message to the DAC or press enter: ')
+        msg = raw_input('Please send message to the DAC or press enter: ')
         if msg != 0:
             print('Sending: ', msg)
             temp_sock.send((msg + terminator).encode("ascii"))

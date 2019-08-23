@@ -7,5 +7,5 @@ Message = Message()
 try:
     server_handle(Message)
 except:
-    pass
+    Message.__del__()
 

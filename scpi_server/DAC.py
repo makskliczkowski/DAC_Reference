@@ -77,7 +77,8 @@ class DAC:
             print('Sending to the DAC: ', string1 + string2 + string3)
             GPIO.output("P8_17", GPIO.LOW)
         else:
-            self.reset_dac()
+            return
+            #self.reset_dac()
 
     @staticmethod
     def convertComplement_DAC(value, width=20):
