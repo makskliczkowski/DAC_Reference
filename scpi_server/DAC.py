@@ -15,7 +15,7 @@ class DAC:
         self.DAC_SEND = "0001"  # value to be sending information to dac
         self.MAX_NEG = -pow(2, 19)  # max neg value that can be achieved
         self.MAX_POS = int(0b01111111111111111111)  # max pos value that can be achieved
-        self.MAX_CLOCK = 34000000  # maximal clock value we can get in Hz
+        self.MAX_CLOCK = 3400000  # maximal clock value we can get in Hz
         self.MIN_CLOCK = 500000  # minimal clock value we can get in Hz
         self.IP = '192.168.0.20'
         self.PORT = 5555
