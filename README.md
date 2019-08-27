@@ -2,7 +2,7 @@
 This is a DAC Voltage Reference project for controling via SCPI standard library
 
 ## Features
-* Very quick control of output voltage, clock speed can achieve up to 35MHz
+* Very quick control of output voltage, clock speed can achieve up to 3.5MHz
 * Voltages in range [-5V,5V] with 2^19 stepping
 * Remote control via Ethernet using SCPI standard commands
 * Autonomic device based on BeagleBone Black board, external connection only for configuration
