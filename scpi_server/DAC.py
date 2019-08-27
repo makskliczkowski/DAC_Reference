@@ -133,7 +133,5 @@ class DAC:
                 strin = strin + str(temp)
             temp_add = int(strin, 2)
             temp_add = temp_add + 1
-            string = bin(temp_add)[2:]
-            for x in range(0, real_width - len(binar)):
-                binar = "0" + binar
+            binar = bin(temp_add)[2:]
             return binar
