@@ -5,6 +5,7 @@ except:
 import socket
 import types
 
+
 # This is a class that handles the whole message with parsing it, then the
 # information will be processed and sent to the DAC inside parse class to adapt by DAC.
 def serv_create(s, buffer=5):
@@ -68,5 +69,7 @@ def server_handle(Message):
     except KeyboardInterrupt:
         print("caught keyboard interrupt, exiting")
         Message.__del__()
+        sel.close()
     finally:
         sel.close()
+        Message.__del__()
