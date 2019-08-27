@@ -332,6 +332,7 @@ def contr_res_button(self):
     self.dac.reset = temp
     GPIO.output("P8_18", self.dac.reset)
     GPIO.output("P8_18", 0)  # returns it back to 0
+    self.initializeDAC()
     if temp == 1:
         self.response += "Reset correct"
     else:
