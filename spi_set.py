@@ -58,7 +58,7 @@ def convertComplement_DAC(value, width=20):
 
 class DACRef:
 
-    def __init__(self, maxClock=33000000):
+    def __init__(self, maxClock=3300000):
         # using two's complement
         self.dacSend = "0001"
         self.max_raw_minus = -pow(2, 19)  # maximal value that can be achieved
@@ -67,10 +67,10 @@ class DACRef:
         # SPI
         self.spi = SPI(1, 0)  # choose SPI device
         self.spi.mode = 0b00
-        if maxClock > 10000:
+        if maxClock > 1000:
             self.spi.msh = maxClock
         else:
-            self.spi.msh = 33000000
+            self.spi.msh = 3300000
             print("Minumum clock speed is 10000, setting default 33Mhz")
         # Start values
         self.reset = 0
@@ -163,7 +163,7 @@ class DACRef:
         else:
             self.actVal = 0  # if we go out of range we get 0
             print("Out of range[-1,1] or 0.")
-            print("Actual value is: " + str(self.actVal))
+           # print("Actual value is: " + str(self.actVal))
         self.registerValue()
 
     def setValueNorm(self, norm):
@@ -172,11 +172,11 @@ class DACRef:
             print("Actual value is: " + str(self.actVal))
         elif 0 > norm >= -1:
             self.actVal = int(-self.max_raw_minus * norm)
-            print("Actual value is: " + str(self.actVal))
+           # print("Actual value is: " + str(self.actVal))
         else:
             self.actVal = 0
             print("Out of range[-1,1] or 0.")
-            print("Actual value is: " + str(self.actVal))
+           # print("Actual value is: " + str(self.actVal))
         self.registerValue()
 
     def setValHelp(self, address):
@@ -210,3 +210,12 @@ class DACRef:
     def __del__(self):
         self.resetDAC()
         self.spi.close()
+
+
+#try:
+#    s = DACRef(3000)
+#    s.chooseDAC(0,0)
+#    while True:
+#        s.setValueRaw(1)
+#except KeyboardInterrupt:
+#    s.__del__()
