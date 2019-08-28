@@ -9,6 +9,6 @@ This is a DAC Voltage Reference project for controling via SCPI standard library
 
 ## Connection and installation
 
-It is possible to remotely connect to Linux kernel of Beaglebone and therfore control it from simply built class included in spi_set.py file.
+It is possible to remotely connect to Linux kernel of Beaglebone and therfore control it from simple built in class included in spi_set.py file.
 
-The device also runs server on IP 192.168.0.20 on 5555 PORT. You can control it via SPCI commands. 
+The device also runs server on IP 192.168.0.20 on 5555 PORT. You can control it via SPCI commands. The server starts by using methods from SCPI_server.py that take Message class instance as a parameter to parse and execute client requests. 
