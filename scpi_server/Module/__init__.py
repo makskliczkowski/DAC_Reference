@@ -1,3 +1,6 @@
+# This is the Message class fundamental, it initializes all the methods in the Module folder. The class is passed to
+# server handling as it is a parser for all the messages.
+# ADD ERRORS!
 from DAC import DAC
 import Lib
 import Module._common as _common

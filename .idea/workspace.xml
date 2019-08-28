@@ -3,6 +3,16 @@
   <component name="ChangeListManager">
     <list default="true" id="358d00c1-0e22-4e28-abcc-692e0d774573" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scpi_server/DAC.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/DAC.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scpi_server/Lib.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/Lib.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scpi_server/Module/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/Module/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scpi_server/Module/_common.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/Module/_common.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scpi_server/Module/_parse_msg.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/Module/_parse_msg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scpi_server/Module/_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/Module/_parser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scpi_server/SCPI_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/SCPI_server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scpi_server/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scpi_server/spi_set.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/spi_set.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spi_set.py" beforeDir="false" afterPath="$PROJECT_DIR$/spi_set.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,7 +34,7 @@
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../TEST/COPYWORKIN WINDOWS/DAC_Reference" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -208,7 +218,28 @@
       <option name="project" value="LOCAL" />
       <updated>1566471526033</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="dels">
+      <created>1566888662435</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1566888662435</updated>
+    </task>
+    <task id="LOCAL-00024" summary="repaired reset">
+      <created>1566913982751</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1566913982751</updated>
+    </task>
+    <task id="LOCAL-00025" summary="repaired converting values">
+      <created>1566916501230</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1566916501230</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -255,6 +286,9 @@
     <MESSAGE value="repaired some mistakes with functions in _parser" />
     <MESSAGE value="SHOULD BE WORKING CHANGED MANY &quot;&quot; to ''" />
     <MESSAGE value="small problems" />
-    <option name="LAST_COMMIT_MESSAGE" value="small problems" />
+    <MESSAGE value="dels" />
+    <MESSAGE value="repaired reset" />
+    <MESSAGE value="repaired converting values" />
+    <option name="LAST_COMMIT_MESSAGE" value="repaired converting values" />
   </component>
 </project>

@@ -1,3 +1,6 @@
+# The file contains all necessary server handling methods, server_handle takes Message class instance for parsing and
+# executing clients request. We can have multiple clients with this idea of selectors and events.
+# ADD ERRRORS!!!!
 try:
     import selectors
 except:
@@ -6,8 +9,7 @@ import socket
 import types
 
 
-# This is a class that handles the whole message with parsing it, then the
-# information will be processed and sent to the DAC inside parse class to adapt by DAC.
+
 def serv_create(s, buffer=5):
     IP = "192.168.0.20"
     PORT = 5555

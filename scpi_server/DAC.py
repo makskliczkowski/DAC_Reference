@@ -1,3 +1,8 @@
+# This is the class that has positions connected to the DAC itself, creation of this class instance occurs int he
+# Message class, static method in the class converts the number to default width binary number in two's complement
+# representation. InitializeDAC is an important method to tell the DAC that it's open for reading SPI commands in a
+# certain way that we implemented here. In our case it's always initialized, but remember, changing the P8.18 on
+# beaglebone to high takes the initialization out, use methods of the class for reset!
 import Adafruit_BBIO.GPIO as GPIO
 from Adafruit_BBIO.SPI import SPI
 
@@ -133,7 +138,5 @@ class DAC:
                 strin = strin + str(temp)
             temp_add = int(strin, 2)
             temp_add = temp_add + 1
-            string = bin(temp_add)[2:]
-            for x in range(0, real_width - len(binar)):
-                binar = "0" + binar
+            binar = bin(temp_add)[2:]
             return binar

@@ -1,3 +1,5 @@
+# Those are methods registered via Lib.py for Message class, they are made to control common methods that need to be
+# implemented in standard SCPI device. It consists of common dictionary that then chooses methods to execute
 import Adafruit_BBIO.GPIO as GPIO
 from Adafruit_BBIO.SPI import SPI
 import Lib

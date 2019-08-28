@@ -1,3 +1,4 @@
+# Old class for just python control of the device without SCPI.
 from Adafruit_BBIO.SPI import SPI
 import time
 import Adafruit_BBIO.GPIO as GPIO
@@ -51,9 +52,8 @@ def convertComplement_DAC(value, width=20):
         temp_add = int(string, 2)
         temp_add = temp_add + 1
         string = bin(temp_add)[2:]
-        for x in range(0, real_width - len(binary)):
-            binary = "0" + binary
-        return binary
+        binar = string
+        return binar
 
 
 class DACRef:
@@ -157,7 +157,7 @@ class DACRef:
         GPIO.output("P8_18", 0)  # returns it back to 0
 
     def setValueRaw(self, raw):
-        if int(raw) <= self.max_raw_plus and int(raw) >= self.max_raw_minus:
+        if self.max_raw_plus >= int(raw) >= self.max_raw_minus:
             self.actVal = int(raw)
             print("Actual value is: " + str(self.actVal))
         else:

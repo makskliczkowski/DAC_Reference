@@ -1,3 +1,5 @@
+# This is the test client handling socket file. Unfortunately the input is still blocking, can be fixed
+
 try:
     import socket
     import selectors
