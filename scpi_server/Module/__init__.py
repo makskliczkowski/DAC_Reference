@@ -37,3 +37,6 @@ class Message(object):
     def __del__(self):
         self.dac.__del__()
         pass
+
+    class MessageErrors:
+        pass

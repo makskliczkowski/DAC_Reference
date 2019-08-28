@@ -55,7 +55,9 @@ def find_path(self, path_temp):
     # ADD ERRRRORRORORORORR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     error = bool(err_long is None and err_short is None)
     if error:
+        error = None
         self.response = "Wrong path, problem with: (No such directory) - " + str(path_temp) + "Try again\n"
+        self.clear_path()
         self.message = ""
     return error
 
@@ -70,6 +72,7 @@ def find_in_common(self, path_temp):
     self.expect_request = False
     if error is None:
         self.response = "Wrong path, problem with: (No such directory) - " + str(path_temp) + "Try again\n"
+        self.clear_path()
         self.message = ""
     else:
         error()
@@ -84,9 +87,6 @@ def request_sending(self, path_temp):
     self.space_handle()
     error = self.find_path(self.request)  # now we can execute function from request
     self.clear_path()
-    if error:
-        self.response = "Wrong path, problem with: (No such directory) - " + str(path_temp) + "Try again"
-        self.message = ""
     return error
 
 
@@ -104,8 +104,9 @@ def msg_handle(self, msg):
         # we are at the root branch
     elif temp[0] == self.path_separator and not self.current_branch == "":
         self.response = "Can't access you path " + msg + ". Can't use : at the beginning. Try again\n"
+        self.clear_path()
         self.message = ""
-        return
+        return -1
         # Later add error!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     # now we iterate on requested path
     path_temp = list()
@@ -121,7 +122,7 @@ def msg_handle(self, msg):
         if temp[i] == self.terminator:
             if self.expect_request:
                 error = self.request_sending(path_temp)
-                if error == -1:
+                if error is None:
                     return -1
             else:
                 if path_temp != '':
@@ -129,10 +130,9 @@ def msg_handle(self, msg):
                     error = self.find_in_common(path_temp)  # if we have non asking common method
                 else:  # for asking common method
                     error = self.find_in_common(self.request)
-                if error == -1:
+                if error is None:
                     return -1
-            error = 0
-            return error  # 0 is returned when no error occurred!
+            return 0  # Nothing is returned when no error occurred!
         # if we get ; we pop it back, check for request and if no request needed then check in common
         # as it hasn't been already executed before, we just check if it's a command without parameters
         if temp[i] == self.command_separator:
@@ -147,7 +147,7 @@ def msg_handle(self, msg):
                     error = self.find_in_common(path_temp)
                 else:  # for asking common method
                     error = self.find_in_common(self.request)
-                if error == -1:
+                if error is None:
                     return -1
             path_temp = []
             continue
@@ -160,7 +160,7 @@ def msg_handle(self, msg):
                 continue
             path_temp.pop()  # remove : from the end
             error = self.find_path(path_temp)
-            if error == -1:
+            if error is None:
                 return -1
             str_path = ''
             str_path = str_path.join(path_temp)
