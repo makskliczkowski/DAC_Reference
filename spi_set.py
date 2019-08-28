@@ -1,3 +1,4 @@
+# Old class for just python control of the device without SCPI.
 from Adafruit_BBIO.SPI import SPI
 import time
 import Adafruit_BBIO.GPIO as GPIO

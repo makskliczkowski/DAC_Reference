@@ -1,4 +1,4 @@
-# This is a class that will add multiple methods into the other class
+# This is a class that will add multiple methods into the other Message class in Module folder
 
 
 def add_methods_from(*modules):

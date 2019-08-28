@@ -1,5 +1,8 @@
-# Functions that will parse information, contain current path, include message to be sent back, request will
-# be proceeded after receiving value that user wants from us. The message will be provided in ASCI format.
+# Functions that will parse information, contain current path, include message to be sent back, request will be
+# proceeded after receiving value that user wants from us. The message will be provided in ASCI format. find_path
+# searches for the path in normal branch dictionary and find_in_common does the same with common dictionary,
+# the methods that change the direction only change current dictionary as tho we can have a memory in the class
+# object. msg_handle handles all the message processing and develops which other method to use.
 import Lib
 
 __methods__ = []

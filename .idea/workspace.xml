@@ -2,6 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="358d00c1-0e22-4e28-abcc-692e0d774573" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scpi_server/DAC.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/DAC.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scpi_server/Lib.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/Lib.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scpi_server/Module/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/Module/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scpi_server/Module/_common.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/Module/_common.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scpi_server/Module/_parse_msg.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/Module/_parse_msg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scpi_server/Module/_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/Module/_parser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scpi_server/SCPI_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/SCPI_server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scpi_server/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scpi_server/spi_set.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/spi_set.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/spi_set.py" beforeDir="false" afterPath="$PROJECT_DIR$/spi_set.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -222,7 +232,14 @@
       <option name="project" value="LOCAL" />
       <updated>1566913982751</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="repaired converting values">
+      <created>1566916501230</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1566916501230</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -271,6 +288,7 @@
     <MESSAGE value="small problems" />
     <MESSAGE value="dels" />
     <MESSAGE value="repaired reset" />
-    <option name="LAST_COMMIT_MESSAGE" value="repaired reset" />
+    <MESSAGE value="repaired converting values" />
+    <option name="LAST_COMMIT_MESSAGE" value="repaired converting values" />
   </component>
 </project>

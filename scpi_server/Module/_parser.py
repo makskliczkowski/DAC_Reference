@@ -1,6 +1,9 @@
-import copy
+# Those are methods registered via Lib.py for Message class, they are made to control standard branch methods that
+# need to be implemented in standard SCPI device. It consists of parse_dict dictionaries that then choose methods to
+# execute. Different methods start with branch they are executed from and self complementary name after _.
 import Adafruit_BBIO.GPIO as GPIO
 from Adafruit_BBIO.SPI import SPI
+from DAC import DAC
 import Lib
 
 __methods__ = []
@@ -117,6 +120,7 @@ def parse_dict(self):
 
     self.curr_dic_short = self.root_short
     self.curr_dic_long = self.root_long
+
 
 # normal functions
 
@@ -281,7 +285,7 @@ def syst_control(self):
 
 @register_method
 def syst_on(self):
-    self.dac.__init__()
+    self.dac = DAC()  # dac create
 
 
 @register_method
