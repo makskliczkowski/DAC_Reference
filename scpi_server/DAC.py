@@ -56,10 +56,11 @@ class DAC:
         self.initializeDAC()
         # server
 
-    @staticmethod
-    def reset_dac():
+    def reset_dac(self):
         GPIO.output("P8_18", 1)
         print('Reseting DAC')
+        self.spi.close()
+        self.spi = SPI(1, 0)
         GPIO.output("P8_18", 0)  # returns it back to 0
 
     def __del__(self):
