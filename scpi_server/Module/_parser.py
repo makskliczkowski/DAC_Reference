@@ -160,29 +160,30 @@ def syst_addr(self):  # function sets dac address - binary
     check2 = bool(int(temp[2]) == 0 or int(temp[2]) == 1)
     check3 = bool(int(temp[3]) == 0 or int(temp[3]) == 1)
     check4 = bool(int(temp[4]) == 0 or int(temp[4]) == 1)
-    if check0 and check1 and check2 and check3 and check4:
+    if True:
         self.response += 'Setting dac address. '
         self.dac.dac_address = temp
         if int(self.dac.dac_address[0]) == 0:
-            GPIO.setup("P9_15", GPIO.LOW)  # P0
+            GPIO.output("P9_15", GPIO.LOW)  # P0
         else:
-            GPIO.setup("P9_15", GPIO.HIGH)  # P0
+            print('debug1')
+            GPIO.output("P9_15", GPIO.HIGH)  # P0
         if int(self.dac.dac_address[1]) == 0:
-            GPIO.setup("P9_11", GPIO.LOW)  # P1
+            GPIO.output("P9_11", GPIO.LOW)  # P1
         else:
-            GPIO.setup("P9_11", GPIO.HIGH)  # P1
+            GPIO.output("P9_11", GPIO.HIGH)  # P1
         if int(self.dac.dac_address[2]) == 0:
-            GPIO.setup("P9_12", GPIO.LOW)  # P2
+            GPIO.output("P9_12", GPIO.LOW)  # P2
         else:
-            GPIO.setup("P9_12", GPIO.HIGH)  # P2
+            GPIO.output("P9_12", GPIO.HIGH)  # P2
         if int(self.dac.dac_address[3]) == 0:
-            GPIO.setup("P9_13", GPIO.LOW)  # P3
+            GPIO.output("P9_13", GPIO.LOW)  # P3
         else:
-            GPIO.setup("P9_13", GPIO.HIGH)  # P3
+            GPIO.output("P9_13", GPIO.HIGH)  # P3
         if int(self.dac.dac_address[4]) == 0:
-            GPIO.setup("P9_14", GPIO.LOW)  # P4
+            GPIO.output("P9_14", GPIO.LOW)  # P4
         else:
-            GPIO.setup("P9_14", GPIO.HIGH)  # P4
+            GPIO.output("P9_14", GPIO.HIGH)  # P4
         self.dac.dac_address = temp
         temp_str = ''
         temp_str = temp_str.join(self.dac.dac_address)

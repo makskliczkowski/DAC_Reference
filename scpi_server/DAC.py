@@ -20,8 +20,8 @@ class DAC:
         self.DAC_SEND = "0001"  # value to be sending information to dac
         self.MAX_NEG = -pow(2, 19)  # max neg value that can be achieved
         self.MAX_POS = int(0b01111111111111111111)  # max pos value that can be achieved
-        self.MAX_CLOCK = 3400000  # maximal clock value we can get in Hz
-        self.MIN_CLOCK = 500000  # minimal clock value we can get in Hz
+        self.MAX_CLOCK = 340000  # maximal clock value we can get in Hz
+        self.MIN_CLOCK = 50000  # minimal clock value we can get in Hz
         self.IP = '192.168.0.20'
         self.PORT = 5555
 
@@ -34,7 +34,7 @@ class DAC:
 
         # Triggers for the DAC
         self.reset = False
-        self.ldac = True
+        self.ldac = False
         GPIO.setup("P8_17", GPIO.OUT)  # LDAC
         GPIO.setup("P8_18", GPIO.OUT)  # RESET
         GPIO.output("P8_18", self.reset)
@@ -73,6 +73,7 @@ class DAC:
         GPIO.output("P8_17", GPIO.LOW)
 
     def registerValue(self):
+        self.initializeDAC()
         if self.act_val != 0:
             temp = self.convertComplement_DAC(self.act_val, 20)
             string1 = self.DAC_SEND + temp[0:4]
@@ -83,9 +84,8 @@ class DAC:
             print('Sending to the DAC: ', string1 + string2 + string3)
             GPIO.output("P8_17", GPIO.LOW)
         else:
+            self.reset_dac()
             return
-            #self.reset_dac()
-
     @staticmethod
     def convertComplement_DAC(value, width=20):
         #        Return the binary representation of the input number as a string.
