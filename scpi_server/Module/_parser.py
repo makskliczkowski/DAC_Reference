@@ -162,6 +162,7 @@ def syst_addr(self):  # function sets dac address - binary
     check3 = bool(int(temp[3]) == 0 or int(temp[3]) == 1)
     check4 = bool(int(temp[4]) == 0 or int(temp[4]) == 1)
     if check0 and check1 and check2 and check3 and check4:
+        self.response += 'Setting dac address. '
         self.dac.dac_address = temp
         if int(self.dac.dac_address[0]) == 0:
             GPIO.setup("P9_15", GPIO.LOW)  # P0
@@ -223,10 +224,21 @@ def syst_board(self):
         self.dac.dac_address[3] = 0
         self.dac.dac_address[4] = 0
 
-    GPIO.output("P9_12", int(self.dac.dac_address[2]))
-    GPIO.output("P9_13", int(self.dac.dac_address[3]))
-    GPIO.output("P9_14", int(self.dac.dac_address[4]))
-    self.response += "The board number is: [" + str(board) + "]"
+    if int(self.dac.dac_address[2]) == 0:
+        GPIO.output("P9_12", GPIO.LOW)
+    else:
+        GPIO.output("P9_12", GPIO.HIGH)
+    if int(self.dac.dac_address[3]) == 0:
+        GPIO.output("P9_13", GPIO.LOW)
+    else:
+        GPIO.output("P9_13", GPIO.HIGH)
+    if int(self.dac.dac_address[4]) == 0:
+        GPIO.output("P9_14", GPIO.LOW)
+    else:
+        GPIO.output("P9_14", GPIO.HIGH)
+
+    self.response += "The board number is: [" + str(self.dac.dac_address[2]) + str(self.dac.dac_address[3]) + str(
+        self.dac.dac_address[4]) + "]"
 
 
 @register_method
@@ -260,10 +272,16 @@ def syst_dac(self):
         print("WRONG NUMBER, SETTING 0")
         self.dac.dac_address[0] = 0
         self.dac.dac_address[1] = 0
+    if int(self.dac.dac_address[0]) == 0:
+        GPIO.output("P9_15", GPIO.LOW)
+    else:
+        GPIO.output("P9_15", GPIO.HIGH)
+    if int(self.dac.dac_address[1]) == 0:
+        GPIO.output("P9_15", GPIO.LOW)
+    else:
+        GPIO.output("P9_15", GPIO.HIGH)
 
-    GPIO.output("P9_15", int(self.dac.dac_address[0]))
-    GPIO.output("P9_11", int(self.dac.dac_address[1]))
-    self.response += "The DAC number is: [" + str(board) + "]"
+    self.response += "The DAC number is: [" + str(self.dac.dac_address[0]) + str(self.dac.dac_address[1]) + "]"
 
 
 @register_method
