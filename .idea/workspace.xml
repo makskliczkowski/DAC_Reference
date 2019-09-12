@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="358d00c1-0e22-4e28-abcc-692e0d774573" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scpi_server/Module/_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/scpi_server/Module/_parser.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -229,7 +230,14 @@
       <option name="project" value="LOCAL" />
       <updated>1566916501230</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="GPIO.LOW and HIGH add">
+      <created>1568269551520</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1568269551520</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -279,6 +287,7 @@
     <MESSAGE value="dels" />
     <MESSAGE value="repaired reset" />
     <MESSAGE value="repaired converting values" />
-    <option name="LAST_COMMIT_MESSAGE" value="repaired converting values" />
+    <MESSAGE value="GPIO.LOW and HIGH add" />
+    <option name="LAST_COMMIT_MESSAGE" value="GPIO.LOW and HIGH add" />
   </component>
 </project>

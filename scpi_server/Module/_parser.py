@@ -155,7 +155,6 @@ def syst_version(self):
 @register_method
 def syst_addr(self):  # function sets dac address - binary
     temp = self.request_val
-    print("debug1")
     check0 = bool(int(temp[0]) == 0 or int(temp[0]) == 1)
     check1 = bool(int(temp[1]) == 0 or int(temp[1]) == 1)
     check2 = bool(int(temp[2]) == 0 or int(temp[2]) == 1)
@@ -277,9 +276,9 @@ def syst_dac(self):
     else:
         GPIO.output("P9_15", GPIO.HIGH)
     if int(self.dac.dac_address[1]) == 0:
-        GPIO.output("P9_15", GPIO.LOW)
+        GPIO.output("P9_11", GPIO.LOW)
     else:
-        GPIO.output("P9_15", GPIO.HIGH)
+        GPIO.output("P9_11", GPIO.HIGH)
 
     self.response += "The DAC number is: [" + str(self.dac.dac_address[0]) + str(self.dac.dac_address[1]) + "]"
 
